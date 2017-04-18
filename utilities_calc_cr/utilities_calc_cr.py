@@ -16,9 +16,13 @@ def main():
         f = open('urls', 'r')
         for line in f:
             urls.append(line)
+        print 'url', urls
         downloader.download_rates(urls, 'rates')
-    elif option == '--topcount':
-        print_top(filename)
+    elif option == '--readrates':
+        downloader.read_rates('rates')
+    elif option == '--saverates':
+        rates = downloader.read_rates('rates')
+        downloader.save_rates(rates, 'rates', 'rates')
     else:
         print 'unknown option: ' + option
         sys.exit(1)
