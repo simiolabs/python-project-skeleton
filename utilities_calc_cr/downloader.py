@@ -29,3 +29,38 @@ def save_rates(rates, dest_dir, filename):
     for rate in rates:
         f.write(rate + '\n')
     f.close()
+
+def get_trr(dir, filename):
+    if os.path.exists(dir + '/' + filename):
+        rate_list = []
+        f = open(dir + '/' + filename, 'r')
+        rate_list = f.read().splitlines()
+
+        i = 0
+        twod_list = []
+        for x in range (0, 3):
+            new = []
+            for j in range (0, 3):
+                new.append(rate_list[i])
+                i += 1
+            twod_list.append(new)
+
+        print twod_list
+        return twod_list
+
+def get_rr(dir, filename):
+    if os.path.exists(dir + '/' + filename):
+        rate_list = []
+        f = open(dir + '/' + filename, 'r')
+        rate_list = f.read().splitlines()
+        rate_list = rate_list[9:13]
+        print rate_list
+        return rate_list
+
+def get_pr(dir, filename):
+    if os.path.exists(dir + '/' + filename):
+        rate_list = []
+        f = open(dir + '/' + filename, 'r')
+        rate_list = f.read().splitlines()
+        rate_list = rate_list[13:]
+        print rate_list
