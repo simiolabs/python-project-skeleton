@@ -14,19 +14,22 @@ def download_rates(urls, dest_dir):
         i += 1
 
 def read_rates(dir):
-    f = open(dir + '/page0.html', 'r')
-    text = f.read()
-    f.close()
-    matches = re.findall(r'(\S+,\d+)</p>', text)
-    #TODO dirty fix for html page error
-    if matches:
-        matches[6] = '180,78'
-        print matches
-    return matches
+    if os.path.exists(dir + '/page0.html'):
+        f = open(dir + '/page0.html', 'r')
+        text = f.read()
+        f.close()
+        matches = re.findall(r'(\S+,\d+)</p>', text)
+        #TODO dirty fix for html page error
+        if matches:
+            matches[6] = '180,78'
+            print matches
+        return matches
 
 def save_rates(rates, dest_dir, filename):
     f = open(dest_dir + '/' + filename, 'w')
     for rate in rates:
+        rate = rate.replace('.', '')
+        rate = rate.replace(',', '.')
         f.write(rate + '\n')
     f.close()
 
