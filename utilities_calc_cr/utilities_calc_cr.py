@@ -20,6 +20,9 @@ def main():
         downloader.download_rates(urls, 'rates')
     elif option == '--readrates':
         downloader.read_rates('rates')
+        downloader.get_trr('rates', 'rates')
+        downloader.get_rr('rates', 'rates')
+        downloader.get_pr('rates', 'rates')
     elif option == '--saverates':
         rates = downloader.read_rates('rates')
         downloader.save_rates(rates, 'rates', 'rates')
