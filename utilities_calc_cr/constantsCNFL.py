@@ -1,19 +1,21 @@
+import time
 #CNFL
 
 OFF_PEAK_TIME =         0
 PEAK_TIME =             1
 NIGHT_TIME =            2
 
-START_OFF_PEAK_TIME1 =  0601
-END_OFF_PEAK_TIME1 =    1000
-START_PEAK_TIME1 =      1001
-END_PEAK_TIME1 =        1230
-START_OFF_PEAK_TIME2 =  1231
-END_OFF_PEAK_TIME2 =    1730
-START_PEAK_TIME2 =      1731
-END_PEAK_TIME2 =        2000
-START_NIGHT_TIME =      2001
-END_NIGHT_TIME =        6000
+#times
+start_offpeak_time1 = time.strptime('06:01', '%H:%M')
+end_offpeak_time1   = time.strptime('10:00', '%H:%M')
+start_peak_time1    = time.strptime('10:01', '%H:%M')
+end_peak_time1      = time.strptime('12:30', '%H:%M')
+start_offpeak_time2 = time.strptime('12:31', '%H:%M')
+end_offpeak_time2   = time.strptime('17:30', '%H:%M')
+start_peak_time2    = time.strptime('17:31', '%H:%M')
+end_peak_time2      = time.strptime('20:00', '%H:%M')
+start_night_time    = time.strptime('20:01', '%H:%M')
+end_night_time      = time.strptime('06:00', '%H:%M')
 
 #TIME RESIDENTIAL RATE
 TRR_LOW =               0
@@ -59,70 +61,72 @@ STREET_LIGHT_TRIBUTE =  3.51
 
 
 #determine segment according to time
-def timeSegment(ts):
-    #offpeak time
-    if ((ts >= START_OFF_PEAK_TIME1 and ts <= END_OFF_PEAK_TIME1) or
-        (ts >= START_OFF_PEAK_TIME2 and ts <= END_OFF_PEAK_TIME2)):
-        return OFF_PEAK_TIME
+def get_time_segment(timestamp):
+    ts = time.strptime(timestamp, '%H:%M')
     #peak time
-    elif ((ts >= START_PEAK_TIME1 and ts <= END_PEAK_TIME1) or
-          (ts >= START_PEAK_TIME2 and ts <= END_PEAK_TIME2)):
+    if ((ts >= start_peak_time1 and ts <= end_peak_time1) or
+        (ts >= start_peak_time2 and ts <= end_peak_time2)):
+        return OFF_PEAK_TIME
+    #offpeak time
+    elif ((ts >= start_offpeak_time1 and ts <= end_offpeak_time1) or
+          (ts >= start_offpeak_time2 and ts <= end_offpeak_time2)):
         return PEAK_TIME
     #night time
-    elif (ts >= START_NIGHT_TIME and ts <= END_NIGHT_TIME):
+    elif ((ts >= start_night_time and ts <= end_night_time) or
+         (ts >= start_night_time and ts <= end_night_time)):
         return NIGHT_TIME
     else:
-        return EXIT_FAILURE
+        return -1
 
 #determine segment according to plan
 #time residential rate
 def get_consumption_segment_trr(watts):
-    if (totalWatts <= TRR_LOW_POWER):
+    if (watts <= TRR_LOW_POWER):
         return TRR_LOW
-    elif (totalWatts > TRR_LOW_POWER and totalWatts <= TRR_HIGH_POWER):
+    elif (watts > TRR_LOW_POWER and watts <= TRR_HIGH_POWER):
         return TRR_MID
-    elif (totalWatts > TRR_HIGH_POWER):
+    elif (watts > TRR_HIGH_POWER):
         return TRR_HIGH
     else:
-        return EXIT_FAILURE
+        return -1
 
 #time residential
 def get_consumption_segment_tr(watts):
-    if (totalWatts <= RR_FIXED_CHARGE):
+    if (watts <= RR_FIXED_CHARGE):
         return RR_FIXED
-    elif (totalWatts > RR_FIXED_CHARGE and totalWatts <= RR_LOW_POWER):
+    elif (watts > RR_FIXED_CHARGE and watts <= RR_LOW_POWER):
         return RR_LOW
-    elif (totalWatts > RR_LOW_POWER and totalWatts <= RR_HIGH_POWER):
+    elif (watts > RR_LOW_POWER and watts <= RR_HIGH_POWER):
         return RR_MID
-    elif (totalWatts > RR_HIGH_POWER):
+    elif (watts > RR_HIGH_POWER):
         return RR_HIGH
     else:
-        return EXIT_FAILURE
+        return -1
 
 #preferential rate
 def consumption_segment_pr(watts, plan):
-    if (totalWatts <= PR_LOW_POWER and plan == PR_ENERGY):
+    if (watts <= PR_LOW_POWER and plan == PR_ENERGY):
         return PR_E_LOW
-    elif (totalWatts <= PR_LOW_POWER and plan == PR_POWER):
+    elif (watts <= PR_LOW_POWER and plan == PR_POWER):
         return PR_P_LOW
-    elif (totalWatts > PR_LOW_POWER and totalWatts <= PR_MID_POWER):
+    elif (watts > PR_LOW_POWER and watts <= PR_MID_POWER):
         return PR_MID
-    elif (totalWatts > PR_MID_POWER and totalWatts <= PR_HIGH_POWER):
+    elif (watts > PR_MID_POWER and watts <= PR_HIGH_POWER):
         return PR_MID
-    elif (totalWatts > PR_HIGH_POWER and plan == PR_ENERGY):
+    elif (watts > PR_HIGH_POWER and plan == PR_ENERGY):
         return PR_E_HIGH
-    elif (totalWatts > PR_HIGH_POWER and plan == PR_POWER):
+    elif (watts > PR_HIGH_POWER and plan == PR_POWER):
         return PR_P_HIGH
     else:
-        return EXIT_FAILURE
+        return -1
 
 #fire department tribute
 def get_fire_department_tribute(total_watts, total_cost, plan):
     if (plan == TRR or plan == RR or plan == PR):
         return (totalCost * FIRE_DEP_TRIBUTE)
     else:
-        return (totalCost / totalWatts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
+        return (totalCost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
 
 #street lighting tribute
-def get_street_lighting_tribute(totalWatts):
-    return (totalWatts * STREET_LIGHT_TRIBUTE)
+def get_street_lighting_tribute(total_watts):
+    return (total_watts * STREET_LIGHT_TRIBUTE)
