@@ -67,3 +67,4 @@ def get_pr(dir, filename):
         rate_list = f.read().splitlines()
         rate_list = rate_list[13:]
         print rate_list
+        return rate_list
