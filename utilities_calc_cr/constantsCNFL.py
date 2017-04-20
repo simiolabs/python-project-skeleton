@@ -14,8 +14,10 @@ start_offpeak_time2 = time.strptime('12:31', '%H:%M')
 end_offpeak_time2   = time.strptime('17:30', '%H:%M')
 start_peak_time2    = time.strptime('17:31', '%H:%M')
 end_peak_time2      = time.strptime('20:00', '%H:%M')
-start_night_time    = time.strptime('20:01', '%H:%M')
-end_night_time      = time.strptime('06:00', '%H:%M')
+start_night_time1   = time.strptime('20:01', '%H:%M')
+end_night_time1     = time.strptime('23:59', '%H:%M')
+start_night_time2   = time.strptime('00:00', '%H:%M')
+end_night_time2     = time.strptime('06:00', '%H:%M')
 
 #TIME RESIDENTIAL RATE
 TRR_LOW =               0
@@ -66,14 +68,14 @@ def get_time_segment(timestamp):
     #peak time
     if ((ts >= start_peak_time1 and ts <= end_peak_time1) or
         (ts >= start_peak_time2 and ts <= end_peak_time2)):
-        return OFF_PEAK_TIME
+        return PEAK_TIME
     #offpeak time
     elif ((ts >= start_offpeak_time1 and ts <= end_offpeak_time1) or
           (ts >= start_offpeak_time2 and ts <= end_offpeak_time2)):
-        return PEAK_TIME
+        return OFF_PEAK_TIME
     #night time
-    elif ((ts >= start_night_time and ts <= end_night_time) or
-         (ts >= start_night_time and ts <= end_night_time)):
+    elif ((ts >= start_night_time1 and ts <= end_night_time1) or
+         (ts >= start_night_time2 and ts <= end_night_time2)):
         return NIGHT_TIME
     else:
         return -1
