@@ -23,12 +23,8 @@ def main():
     elif option == '--saverates':
         rates = downloader.read_rates('rates')
         downloader.save_rates(rates, 'rates', 'rates')
-    elif option == '--getrates':
-        rates = downloader.read_rates('rates')
-        downloader.save_rates(rates, 'rates', 'rates')
-        downloader.get_trr('rates', 'rates')
-        downloader.get_rr('rates', 'rates')
-        downloader.get_pr('rates', 'rates')
+    elif option == '--getlogs':
+        downloader.download_old_log('logs')
     else:
         print 'unknown option: ' + option
         sys.exit(1)
