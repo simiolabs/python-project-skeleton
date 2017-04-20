@@ -111,9 +111,7 @@ def get_consumption_segment_pr(watts, plan):
         return PR_E_LOW
     elif (watts <= PR_LOW_POWER and plan == PR_POWER):
         return PR_P_LOW
-    elif (watts > PR_LOW_POWER and watts <= PR_MID_POWER):
-        return PR_MID
-    elif (watts > PR_MID_POWER and watts <= PR_HIGH_POWER):
+    elif (watts > PR_LOW_POWER and watts <= PR_HIGH_POWER):
         return PR_MID
     elif (watts > PR_HIGH_POWER and plan == PR_ENERGY):
         return PR_E_HIGH
