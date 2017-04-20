@@ -68,3 +68,11 @@ def get_pr(dir, filename):
         rate_list = rate_list[13:]
         print rate_list
         return rate_list
+
+def download_old_log(dest_dir):
+    if not os.path.exists(dest_dir):
+        os.makedirs(dest_dir)
+
+    local_name = 'log'
+    print 'Retrieving...'
+    urllib.urlretrieve('http://data.sparkfun.com/output/JxKdMWGdMViN2784OQb1.json?gte[timestamp]=04-01-2017&eq[name]=total', os.path.join(dest_dir, local_name))
