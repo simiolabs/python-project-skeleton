@@ -106,7 +106,7 @@ def get_consumption_segment_tr(watts):
         return -1
 
 #preferential rate
-def consumption_segment_pr(watts, plan):
+def get_consumption_segment_pr(watts, plan):
     if (watts <= PR_LOW_POWER and plan == PR_ENERGY):
         return PR_E_LOW
     elif (watts <= PR_LOW_POWER and plan == PR_POWER):
