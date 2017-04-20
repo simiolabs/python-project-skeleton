@@ -92,7 +92,7 @@ def get_consumption_segment_trr(watts):
     else:
         return -1
 
-#time residential
+#residential rate
 def get_consumption_segment_tr(watts):
     if (watts <= RR_FIXED_CHARGE):
         return RR_FIXED
