@@ -16,62 +16,6 @@ def download_rates(urls, dest_dir):
         urllib.urlretrieve(url, os.path.join(dest_dir, local_name))
         i += 1
 
-def read_rates(dir):
-    if os.path.exists(dir + '/page0.html'):
-        f = open(dir + '/page0.html', 'r')
-        text = f.read()
-        f.close()
-        matches = re.findall(r'(\S+,\d+)</p>', text)
-        #TODO dirty fix for html page error
-        if matches:
-            matches[6] = '180,78'
-            print matches
-        return matches
-
-def save_rates(rates, dest_dir, filename):
-    f = open(dest_dir + '/' + filename, 'w')
-    for rate in rates:
-        rate = rate.replace('.', '')
-        rate = rate.replace(',', '.')
-        f.write(rate + '\n')
-    f.close()
-
-def get_trr(dir, filename):
-    if os.path.exists(dir + '/' + filename):
-        rate_list = []
-        f = open(dir + '/' + filename, 'r')
-        rate_list = f.read().splitlines()
-
-        i = 0
-        twod_list = []
-        for x in range (0, 3):
-            new = []
-            for j in range (0, 3):
-                new.append(rate_list[i])
-                i += 1
-            twod_list.append(new)
-
-        print twod_list
-        return twod_list
-
-def get_rr(dir, filename):
-    if os.path.exists(dir + '/' + filename):
-        rate_list = []
-        f = open(dir + '/' + filename, 'r')
-        rate_list = f.read().splitlines()
-        rate_list = rate_list[9:13]
-        print rate_list
-        return rate_list
-
-def get_pr(dir, filename):
-    if os.path.exists(dir + '/' + filename):
-        rate_list = []
-        f = open(dir + '/' + filename, 'r')
-        rate_list = f.read().splitlines()
-        rate_list = rate_list[13:]
-        print rate_list
-        return rate_list
-
 def download_old_log(dest_dir):
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
