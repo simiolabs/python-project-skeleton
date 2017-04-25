@@ -122,10 +122,10 @@ def get_consumption_segment_pr(watts, plan):
 
 #fire department tribute
 def get_fire_department_tribute(total_watts, total_cost, plan):
-    if (plan == TRR or plan == RR or plan == PR):
-        return (totalCost * FIRE_DEP_TRIBUTE)
+    if (plan == 'TRR' or plan == 'RR' or plan == 'PR'):
+        return (total_cost * FIRE_DEP_TRIBUTE)
     else:
-        return (totalCost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
+        return (total_cost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
 
 #street lighting tribute
 def get_street_lighting_tribute(total_watts):
