@@ -1,6 +1,7 @@
 import sys
 
 import downloader
+import parser
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
@@ -19,12 +20,14 @@ def main():
         print 'url', urls
         downloader.download_rates(urls, 'rates')
     elif option == '--readrates':
-        downloader.read_rates('rates')
+        parser.read_rates('rates')
     elif option == '--saverates':
-        rates = downloader.read_rates('rates')
-        downloader.save_rates(rates, 'rates', 'rates')
+        rates = parser.read_rates('rates')
+        parser.save_rates(rates, 'rates', 'rates')
     elif option == '--getlogs':
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
+    elif option == '--logtodays':
+        parser.log_to_days('logs', 'log')
     else:
         print 'unknown option: ' + option
         sys.exit(1)
