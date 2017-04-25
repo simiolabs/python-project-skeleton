@@ -24,7 +24,7 @@ def main():
         rates = downloader.read_rates('rates')
         downloader.save_rates(rates, 'rates', 'rates')
     elif option == '--getlogs':
-        downloader.get_last_month_log('logs')
+        downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
     else:
         print 'unknown option: ' + option
         sys.exit(1)
