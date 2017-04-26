@@ -73,7 +73,7 @@ def log_to_days(dirname, filename):
                 day_log_file.close()
         log_file.close()
 
-def days_to_segments(dirname):
+def days_to_formatted_days(dirname):
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
         for path in paths:
