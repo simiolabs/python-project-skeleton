@@ -28,6 +28,8 @@ def main():
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
     elif option == '--logtodays':
         parser.log_to_days('logs', 'log')
+    elif option == '--daystosegs':
+        parser.days_to_segments('logs/2017-03')
     else:
         print 'unknown option: ' + option
         sys.exit(1)
