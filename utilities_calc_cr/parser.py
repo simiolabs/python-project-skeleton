@@ -31,7 +31,7 @@ def get_trr(dirname, filename):
         twod_list = [] #create 3x3 matrix
         for x in range (0, 3):
             new = []
-            for j in range (0, 3):
+            for y in range (0, 3):
                 new.append(rate_list[i])
                 i += 1
             twod_list.append(new)
@@ -76,4 +76,15 @@ def log_to_days(dirname, filename):
 def days_to_segments(dirname):
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
-        print paths
+        for path in paths:
+            print 'Reading:', path
+            day_log_file = open(dirname + '/' + path, 'r')
+            for line in day_log_file:
+                #match = re.search(r'(\d+:\d+:\d+)', line)
+                match = re.search(r'\"real_power\":\"(\d+.\d+)\"\S+\"timestamp\":\"\S+T(\d+:\d+:\d+)', line)
+                if match:
+                    formated_file = open(dirname + '/' + path + '.format', 'a')
+                    formated_file.write(match.group(2) + ' ' + match.group(1) \
+                                        + '\n')
+                    formated_file.close()
+            day_log_file.close()
