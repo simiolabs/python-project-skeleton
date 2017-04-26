@@ -63,8 +63,14 @@ def log_to_days(dir, filename):
         for line in log_file:
             match = re.search(r'(\d+-\d+-\d+)', line)
             if match:
+                month_log_name = match.group(1)[:7]
+                if not os.path.exists(dir + '/' + month_log_name):
+                    os.makedirs(dir + '/' + month_log_name)
                 day_log_name = match.group(1)
-                day_log_file = open(dir + '/' + day_log_name, 'a')
+                day_log_file = open(dir + '/' + month_log_name + '/' + \
+                                    day_log_name, 'a')
                 day_log_file.write(line)
                 day_log_file.close()
         log_file.close()
+
+#def days_to_
