@@ -30,8 +30,14 @@ def main():
         parser.log_to_days('logs', 'log')
     elif option == '--daystofdays':
         parser.days_to_formatted_days('logs/2017-03')
-    elif option == '--getmaxpower':
+    elif option == '--loaddic':
         parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+    elif option == '--getmaxpower':
+        data_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+        parser.get_max_power(data_dic)
+    elif option == '--getwattshour':
+        data_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+        parser.get_watts_hour(data_dic)
     else:
         print 'unknown option: ' + option
         sys.exit(1)
