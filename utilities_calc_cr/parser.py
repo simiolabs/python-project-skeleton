@@ -88,3 +88,14 @@ def days_to_formatted_days(dirname):
                                         + '\n')
                     formated_file.close()
             day_log_file.close()
+
+def load_dic_from_file(dirname, filename):
+    data_dic = {}
+    if os.path.exists(dirname + '/' + filename):
+        day_log_file = open(dirname + '/' + filename, 'r')
+        for line in day_log_file:
+            data = line.strip('\n').split(' ')
+            data_dic[data[0]] = data[1]
+        day_log_file.close()
+        #print data_dic
+        return data_dic
