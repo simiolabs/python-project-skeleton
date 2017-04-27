@@ -1,5 +1,7 @@
 import os
 import re
+from datetime import datetime, timedelta
+import time
 
 def read_rates(dirname):
     if os.path.exists(dirname + '/page0.html'):
@@ -102,3 +104,15 @@ def load_dic_from_file(dirname, filename):
 
 def get_max_power(data_dic):
     print max(data_dic, key=data_dic.get), max(data_dic.values())
+
+def get_watts_hour(data_dir):
+    sorted_keys = sorted(data_dir.keys())
+    i = 0
+    while sorted_keys[i] is not sorted_keys[-1]:
+        t1 = time.strptime(sorted_keys[i], '%H:%M:%S')
+        t2 = time.strptime(sorted_keys[i + 1], '%H:%M:%S')
+        s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,seconds=t1.tm_sec).total_seconds()
+        s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,seconds=t2.tm_sec).total_seconds()
+        t_delta = s2 - s1
+        print sorted_keys[i], data_dir[sorted_keys[i]], t_delta, float(data_dir[sorted_keys[i]]) * t_delta / 3600
+        i += 1
