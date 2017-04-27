@@ -99,3 +99,6 @@ def load_dic_from_file(dirname, filename):
         day_log_file.close()
         #print data_dic
         return data_dic
+
+def get_max_power(data_dic):
+    print max(data_dic, key=data_dic.get), max(data_dic.values())
