@@ -123,6 +123,7 @@ def load_dic_from_file(dirname, filename):
         return data_dic
 
 def get_max_power(data_dic):
+    """Print out max real power value."""
     print max(data_dic, key=data_dic.get), max(data_dic.values())
 
 def get_watts_hour(data_dir):
