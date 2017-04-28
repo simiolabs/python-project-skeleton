@@ -14,12 +14,16 @@ def main():
     #filename = sys.argv[2]
     if option == '--getrates':
         downloader.download_rates('urls', 'rates')
-    elif option == '--readrates':
-        parser.read_rates('rates')
+    elif option == '--parserates':
+        parser.read_rates('rates', 'page0.html')
     elif option == '--saverates':
-        rates = parser.read_rates('rates')
-        parser.save_rates(rates, 'rates', 'rates')
-    elif option == '--getlogs':
+        rates_list = parser.read_rates('rates', 'page0.html')
+        parser.save_rates('rates', 'rates', rates_list)
+    elif option == '--readrates':
+        parser.get_trr('rates', 'rates')
+        parser.get_rr('rates', 'rates')
+        parser.get_pr('rates', 'rates')
+    elif option == '--getlog':
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
     elif option == '--logtodays':
         parser.log_to_days('logs', 'log')
