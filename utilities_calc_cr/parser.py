@@ -103,7 +103,7 @@ def days_to_formatted_days(dirname):
             save_dic_to_file(dirname, new_file_name, data_dic)
 
 def save_dic_to_file(dirname, filename, data_dic):
-    """Save a key sorted dic to a file."""
+    """Save a key (timestamp) sorted dic to a file."""
     if os.path.exists(dirname):
         sorted_keys = sorted(data_dic)
         f = open(dirname + '/' + filename, 'w')
@@ -111,16 +111,15 @@ def save_dic_to_file(dirname, filename, data_dic):
             f.write(key + ' ' + data_dic[key] + '\n')
         f.close()
 
-
 def load_dic_from_file(dirname, filename):
-    data_dic = {}
+    """Load a dic from a file, use first column as key."""
     if os.path.exists(dirname + '/' + filename):
-        day_log_file = open(dirname + '/' + filename, 'r')
-        for line in day_log_file:
+        data_dic = {}
+        f = open(dirname + '/' + filename, 'r')
+        for line in f:
             data = line.strip('\n').split(' ')
             data_dic[data[0]] = data[1]
-        day_log_file.close()
-        #print data_dic
+        f.close()
         return data_dic
 
 def get_max_power(data_dic):
