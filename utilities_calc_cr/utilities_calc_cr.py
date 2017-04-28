@@ -12,13 +12,8 @@ def main():
 
     option = sys.argv[1]
     #filename = sys.argv[2]
-    if option == '--download':
-        urls = []
-        f = open('urls', 'r')
-        for line in f:
-            urls.append(line)
-        print 'url', urls
-        downloader.download_rates(urls, 'rates')
+    if option == '--getrates':
+        downloader.download_rates('urls', 'rates')
     elif option == '--readrates':
         parser.read_rates('rates')
     elif option == '--saverates':
