@@ -27,6 +27,7 @@ def download_rates(filename, dest_dir):
             print e
 
 def get_last_month_log(public_key, dest_dir):
+    """Download last's month log from Phant.io and save it."""
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
 
