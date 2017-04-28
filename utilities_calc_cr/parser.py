@@ -3,15 +3,15 @@ import re
 from datetime import datetime, timedelta
 import time
 
-def read_rates(dirname):
-    if os.path.exists(dirname + '/page0.html'):
-        f = open(dirname + '/page0.html', 'r')
+def read_rates(dirname, filename):
+    """Read rates from file and return a list."""
+    if os.path.exists(dirname + '/' + filename):
+        f = open(dirname + '/' + filename, 'r')
         text = f.read()
         f.close()
         matches = re.findall(r'(\S+,\d+)</p>', text)
-        #TODO dirty fix for html page error
         if matches:
-            matches[6] = '180,78'
+            matches[6] = matches[6][2:] #TODO dirty fix for html page error
             print matches
         return matches
 
