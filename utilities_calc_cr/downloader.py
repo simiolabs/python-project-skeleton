@@ -5,10 +5,17 @@ import datetime
 
 LOG_NAME = 'log'
 
-def download_rates(urls, dest_dir):
+def download_rates(filename, dest_dir):
+    """Download rates from websites in list of urls."""
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
 
+    urls = []
+    f = open(filename, 'r')
+    for line in f:
+        urls.append(line)
+    f.close()
+    #print 'urls', urls
     i = 0
     for url in urls:
         local_name = 'page%d.html' % i
