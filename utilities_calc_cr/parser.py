@@ -6,6 +6,7 @@ import time
 def read_rates(dirname, filename):
     """Read rates from file and return a list."""
     if os.path.exists(dirname + '/' + filename):
+        print 'Reading...', filename
         f = open(dirname + '/' + filename, 'r')
         text = f.read()
         f.close()
@@ -15,8 +16,10 @@ def read_rates(dirname, filename):
             print matches
         return matches
 
-def save_rates(rates, dest_dir, filename):
-    f = open(dest_dir + '/' + filename, 'w')
+def save_rates(dirname, filename, rates):
+    """Take list of rates and save them to a file."""
+    print 'Saving...', filename
+    f = open(dirname + '/' + filename, 'w')
     for rate in rates:
         rate = rate.replace('.', '')
         rate = rate.replace(',', '.')
