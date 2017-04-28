@@ -27,6 +27,7 @@ def save_rates(dirname, filename, rates):
     f.close()
 
 def get_trr(dirname, filename):
+    """Read TRR and return list."""
     if os.path.exists(dirname + '/' + filename):
         rate_list = []
         f = open(dirname + '/' + filename, 'r')
@@ -45,6 +46,7 @@ def get_trr(dirname, filename):
         return twod_list
 
 def get_rr(dirname, filename):
+    """Read RR and return list."""
     if os.path.exists(dirname + '/' + filename):
         rate_list = []
         f = open(dirname + '/' + filename, 'r')
@@ -54,6 +56,7 @@ def get_rr(dirname, filename):
         return rate_list
 
 def get_pr(dirname, filename):
+    """Read PR and return list."""
     if os.path.exists(dirname + '/' + filename):
         rate_list = []
         f = open(dirname + '/' + filename, 'r')
