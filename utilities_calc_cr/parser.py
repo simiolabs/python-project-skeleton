@@ -85,20 +85,32 @@ def log_to_days(dirname, filename):
         log_file.close()
 
 def days_to_formatted_days(dirname):
+    """Take day long log file, extract timestamp and real power and save it."""
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
+        paths = sorted(paths)
         for path in paths:
+            data_dic = {}
             print 'Reading:', path
             day_log_file = open(dirname + '/' + path, 'r')
             for line in day_log_file:
-                #match = re.search(r'(\d+:\d+:\d+)', line)
                 match = re.search(r'\"real_power\":\"(\d+.\d+)\"\S+\"timestamp\":\"\S+T(\d+:\d+:\d+)', line)
                 if match:
-                    formated_file = open(dirname + '/' + path + '.format', 'a')
-                    formated_file.write(match.group(2) + ' ' + match.group(1) \
-                                        + '\n')
-                    formated_file.close()
+                    data_dic[match.group(2)] = match.group(1)
             day_log_file.close()
+            new_file_name = path + '.format'
+            print 'Saving', new_file_name
+            save_dic_to_file(dirname, new_file_name, data_dic)
+
+def save_dic_to_file(dirname, filename, data_dic):
+    """Save a key sorted dic to a file."""
+    if os.path.exists(dirname):
+        sorted_keys = sorted(data_dic)
+        f = open(dirname + '/' + filename, 'w')
+        for key in sorted_keys:
+            f.write(key + ' ' + data_dic[key] + '\n')
+        f.close()
+
 
 def load_dic_from_file(dirname, filename):
     data_dic = {}
