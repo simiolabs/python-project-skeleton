@@ -30,7 +30,8 @@ def main():
     elif option == '--daystofdays':
         parser.days_to_formatted_days('logs/2017-03')
     elif option == '--loaddic':
-        parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+        load_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+        print load_dic
     elif option == '--getmaxpower':
         data_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
         parser.get_max_power(data_dic)
