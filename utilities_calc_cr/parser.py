@@ -3,6 +3,8 @@ import re
 from datetime import datetime, timedelta
 import time
 
+KW_LOG = '.kw'
+
 def read_rates(dirname, filename):
     """Read rates from file and return a list."""
     if os.path.exists(dirname + '/' + filename):
@@ -84,7 +86,7 @@ def log_to_days(dirname, filename):
                 day_log_file.close()
         log_file.close()
 
-def days_to_formatted_days(dirname):
+def extract_time_and_power(dirname):
     """Take day long log file, extract timestamp and real power and save it."""
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
@@ -98,7 +100,7 @@ def days_to_formatted_days(dirname):
                 if match:
                     data_dic[match.group(2)] = match.group(1)
             day_log_file.close()
-            new_file_name = path + '.format'
+            new_file_name = path  + KW_LOG
             print 'Saving', new_file_name
             save_dic_to_file(dirname, new_file_name, data_dic)
 
@@ -154,4 +156,5 @@ def get_watts_hour(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
         for path in paths:
-            if path.endswith()
+            if path.endswith():
+                pass
