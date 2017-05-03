@@ -99,7 +99,9 @@ def extract_time_and_power(dirname):
             for line in day_log_file:
                 match = re.search(r'\"real_power\":\"(\d+.\d+)\"\S+\"timestamp\":\"\S+T(\d+:\d+:\d+)', line)
                 if match:
-                    data_dic[match.group(2)] = match.group(1)
+                    temp_list = []
+                    temp_list.append(match.group(1))
+                    data_dic[match.group(2)] = temp_list
             day_log_file.close()
             new_file_name = path  + KW_LOG
             print 'Saving', new_file_name
@@ -121,7 +123,9 @@ def load_dic_from_file(dirname, filename):
         f = open(dirname + '/' + filename, 'r')
         for line in f:
             data = line.strip('\n').split(' ')
-            data_dic[data[0]] = data[1]
+            key = data[0]
+            data.pop(0)
+            data_dic[key] = data
         f.close()
         return data_dic
 
@@ -143,10 +147,10 @@ def convert_w_to_wh(data_dic):
         s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,seconds=t1.tm_sec).total_seconds() # convert t1 to secs
         s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,seconds=t2.tm_sec).total_seconds() # convert t2 to secs
         t_delta = s2 - s1
-        kwh = float(data_dic[sorted_keys[i]]) * t_delta / 3600
+        wh = float(data_dic[sorted_keys[i]]) * t_delta / 3600
         temp_list.append(data_dic[sorted_keys[i]])
         temp_list.append(str(t_delta))
-        temp_list.append(str(kwh))
+        temp_list.append(str(wh))
         data_dic[sorted_keys[i]] = temp_list
         i += 1
     return data_dic
@@ -159,5 +163,5 @@ def get_watts_hour(dirname):
         for path in paths:
             if path.endswith(KW_LOG):
                 data_dic = load_dic_from_file(dirname, path)
-                data_dic = convert_w_to_wh(data_dic)
-                save_dic_to_file(dirname, path[:-3] + KWH_LOG, data_dic)
+                new_data_dic = convert_w_to_wh(data_dic)
+                save_dic_to_file(dirname, path[:-3] + KWH_LOG, new_data_dic)
