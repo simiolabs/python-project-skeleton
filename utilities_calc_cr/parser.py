@@ -111,7 +111,7 @@ def save_dic_to_file(dirname, filename, data_dic):
         sorted_keys = sorted(data_dic)
         f = open(dirname + '/' + filename, 'w')
         for key in sorted_keys:
-            f.write(key + ' ' + data_dic[key] + '\n')
+            f.write(key + ' ' + ' '.join(data_dic[key]) + '\n')
         f.close()
 
 def load_dic_from_file(dirname, filename):
