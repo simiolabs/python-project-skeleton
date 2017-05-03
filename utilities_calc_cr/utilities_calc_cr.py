@@ -27,17 +27,18 @@ def main():
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
     elif option == '--logtodays':
         parser.log_to_days('logs', 'log')
-    elif option == '--daystofdays':
-        parser.days_to_formatted_days('logs/2017-03')
+    elif option == '--getwatts':
+        parser.extract_time_and_power('logs/2017-03')
     elif option == '--loaddic':
-        load_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+        load_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.kw')
+        print load_dic
+        load_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.kwh')
         print load_dic
     elif option == '--getmaxpower':
-        data_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
+        data_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.kw')
         parser.get_max_power(data_dic)
     elif option == '--getwattshour':
-        data_dic = parser.load_dic_from_file('logs/2017-03', '2017-03-01.format')
-        parser.get_watts_hour(data_dic)
+        parser.get_watts_hour('logs/2017-03')
     else:
         print 'unknown option: ' + option
         sys.exit(1)
