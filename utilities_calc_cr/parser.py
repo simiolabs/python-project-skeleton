@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import time
 
 KW_LOG = '.kw'
+KWH_LOG = '.kwh'
 
 def read_rates(dirname, filename):
     """Read rates from file and return a list."""
@@ -128,12 +129,12 @@ def get_max_power(data_dic):
     """Print out max real power value."""
     print max(data_dic, key=data_dic.get), max(data_dic.values())
 
-def convert_w_to_wh(data_dir):
+def convert_w_to_wh(data_dic):
     """
     Take a dic with a timestamp and kW, calculate kWh and return everything
     in a dic.
     """
-    sorted_keys = sorted(data_dir.keys())
+    sorted_keys = sorted(data_dic.keys())
     i = 0
     while sorted_keys[i] is not sorted_keys[-1]:
         temp_list = []
@@ -142,13 +143,13 @@ def convert_w_to_wh(data_dir):
         s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,seconds=t1.tm_sec).total_seconds() # convert t1 to secs
         s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,seconds=t2.tm_sec).total_seconds() # convert t2 to secs
         t_delta = s2 - s1
-        kwh = float(data_dir[sorted_keys[i]]) * t_delta / 3600
-        temp_list.append(data_dir[sorted_keys[i]])
+        kwh = float(data_dic[sorted_keys[i]]) * t_delta / 3600
+        temp_list.append(data_dic[sorted_keys[i]])
         temp_list.append(str(t_delta))
         temp_list.append(str(kwh))
-        data_dir[sorted_keys[i]] = temp_list
+        data_dic[sorted_keys[i]] = temp_list
         i += 1
-    return data_dir
+    return data_dic
 
 def get_watts_hour(dirname):
     """Take day long log file, extract timestamp and real power and save it."""
@@ -156,5 +157,7 @@ def get_watts_hour(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
         for path in paths:
-            if path.endswith():
-                pass
+            if path.endswith(KW_LOG):
+                data_dic = load_dic_from_file(dirname, path)
+                data_dic = convert_w_to_wh(data_dic)
+                save_dic_to_file(dirname, path[:-3] + KWH_LOG, data_dic)
