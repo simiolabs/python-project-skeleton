@@ -142,10 +142,16 @@ def convert_w_to_wh(data_dic):
     i = 0
     while sorted_keys[i] is not sorted_keys[-1]:
         temp_list = []
-        t1 = time.strptime(sorted_keys[i], '%H:%M:%S') # create time object from key
-        t2 = time.strptime(sorted_keys[i + 1], '%H:%M:%S') # create time object from next key
-        s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,seconds=t1.tm_sec).total_seconds() # convert t1 to secs
-        s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,seconds=t2.tm_sec).total_seconds() # convert t2 to secs
+        # create time object from key
+        t1 = time.strptime(sorted_keys[i], '%H:%M:%S')
+        # create time object from next key
+        t2 = time.strptime(sorted_keys[i + 1], '%H:%M:%S')
+        # convert t1 to secs
+        s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,\
+        seconds=t1.tm_sec).total_seconds()
+        # convert t2 to secs
+        s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,\
+        seconds=t2.tm_sec).total_seconds()
         t_delta = s2 - s1
         wh = float(data_dic[sorted_keys[i]][0]) * t_delta / 3600
         temp_list.append(data_dic[sorted_keys[i]][0])
