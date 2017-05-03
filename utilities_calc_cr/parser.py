@@ -126,14 +126,32 @@ def get_max_power(data_dic):
     """Print out max real power value."""
     print max(data_dic, key=data_dic.get), max(data_dic.values())
 
-def get_watts_hour(data_dir):
+def convert_w_to_wh(data_dir):
+    """
+    Take a dic with a timestamp and kW, calculate kWh and return everything
+    in a dic.
+    """
     sorted_keys = sorted(data_dir.keys())
     i = 0
     while sorted_keys[i] is not sorted_keys[-1]:
-        t1 = time.strptime(sorted_keys[i], '%H:%M:%S')
-        t2 = time.strptime(sorted_keys[i + 1], '%H:%M:%S')
-        s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,seconds=t1.tm_sec).total_seconds()
-        s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,seconds=t2.tm_sec).total_seconds()
+        temp_list = []
+        t1 = time.strptime(sorted_keys[i], '%H:%M:%S') # create time object from key
+        t2 = time.strptime(sorted_keys[i + 1], '%H:%M:%S') # create time object from next key
+        s1 = timedelta(hours=t1.tm_hour,minutes=t1.tm_min,seconds=t1.tm_sec).total_seconds() # convert t1 to secs
+        s2 = timedelta(hours=t2.tm_hour,minutes=t2.tm_min,seconds=t2.tm_sec).total_seconds() # convert t2 to secs
         t_delta = s2 - s1
-        print sorted_keys[i], data_dir[sorted_keys[i]], t_delta, float(data_dir[sorted_keys[i]]) * t_delta / 3600
+        kwh = float(data_dir[sorted_keys[i]]) * t_delta / 3600
+        temp_list.append(data_dir[sorted_keys[i]])
+        temp_list.append(str(t_delta))
+        temp_list.append(str(kwh))
+        data_dir[sorted_keys[i]] = temp_list
         i += 1
+    return data_dir
+
+def get_watts_hour(dirname):
+    """Take day long log file, extract timestamp and real power and save it."""
+    if os.path.exists(dirname):
+        paths = os.listdir(dirname)
+        paths = sorted(paths)
+        for path in paths:
+            if path.endswith()
