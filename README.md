@@ -1,7 +1,7 @@
 
 
-PROJECT NAME
-============
+UTILITIES CALCULATOR [![Build Status](https://travis-ci.org/simiolabs/utilities_calc_cr.svg?branch=master)](https://travis-ci.org/simiolabs/utilities_calc_cr)
+====================
 
 Skeleton project directory. This is derived from Learning Python to Hard Way
 exercise #46.
