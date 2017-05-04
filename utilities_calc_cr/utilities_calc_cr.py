@@ -2,6 +2,7 @@ import sys
 
 import downloader
 import parser
+import users
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
@@ -39,6 +40,11 @@ def main():
         parser.get_max_power(data_dic)
     elif option == '--getwattshour':
         parser.get_watts_hour('logs/2017-03')
+    elif option == '--testuser':
+        user = users.User('111650608')
+        user.assign_company('electricity', 'cnfl')
+        user.assign_company('water', 'aya')
+        user.print_info()
     else:
         print 'unknown option: ' + option
         sys.exit(1)
