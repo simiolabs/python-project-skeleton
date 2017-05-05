@@ -45,6 +45,7 @@ def main():
         user.assign_company('electricity', 'cnfl')
         user.assign_company('water', 'aya')
         user.print_info()
+        user.create_account()
     else:
         print 'unknown option: ' + option
         sys.exit(1)
