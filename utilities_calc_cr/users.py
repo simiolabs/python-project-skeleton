@@ -1,4 +1,6 @@
 import os
+import datetime
+import downloader
 
 utilities = [ 'electricity', 'water' ]
 electricity_companies = [ 'cnfl' ]
@@ -6,7 +8,8 @@ water_companies = [ 'aya' ]
 db = [ 'phant' ]
 
 USER_INFO = 'info'
-LOG_DIR = 'logs'
+ELECTRIC_DIR = 'electric'
+WATER_DIR = 'water'
 
 class User(object):
     def __init__(self, user_id):
@@ -57,6 +60,13 @@ class User(object):
                 self.water_pk + '\n')
         f.close()
 
-#    def get_last_month_log(database):
-#        if database == db[0]:
-#            downloader.get_last_month_log(public_key, dest_dir)
+    def get_last_month_electric_log(self):
+        if not os.path.exists(self.user_id + '/' + ELECTRIC_DIR):
+            os.makedirs(self.user_id + '/' + ELECTRIC_DIR)
+
+        if self.electricity_db == db[0]:
+            today = datetime.date.today()
+            downloader.get_last_month_log(self.electricity_pk, \
+                                          self.user_id + '/' + \
+                                          ELECTRIC_DIR + '/' +
+                                          today.strftime('%m-%d-%Y'))
