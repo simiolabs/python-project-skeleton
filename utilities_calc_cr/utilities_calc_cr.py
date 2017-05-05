@@ -43,9 +43,11 @@ def main():
     elif option == '--testuser':
         user = users.User('111650608')
         user.assign_company('electricity', 'cnfl')
+        user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
         user.assign_company('water', 'aya')
         user.print_info()
         user.create_account()
+        user.get_last_month_electric_log()
     else:
         print 'unknown option: ' + option
         sys.exit(1)
