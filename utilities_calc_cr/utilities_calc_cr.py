@@ -19,11 +19,11 @@ def main():
         parser.read_rates('rates', 'page0.html')
     elif option == '--saverates':
         rates_list = parser.read_rates('rates', 'page0.html')
-        parser.save_rates('rates', 'rates', rates_list)
+        parser.save_rates('rates', 'rates-CNFL', rates_list)
     elif option == '--readrates':
-        parser.get_trr('rates', 'rates')
-        parser.get_rr('rates', 'rates')
-        parser.get_pr('rates', 'rates')
+        parser.get_trr('rates', 'rates-CNFL')
+        parser.get_rr('rates', 'rates-CNFL')
+        parser.get_pr('rates', 'rates-CNFL')
     elif option == '--getlog':
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
     elif option == '--logtodays':
