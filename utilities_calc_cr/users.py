@@ -51,9 +51,10 @@ class User(object):
 
         f = open(self.user_id + '/' + USER_INFO, 'w')
         f.write(self.user_id+ '\n')
-        f.write(self.electricity_company + self.electricity_db + \
+        f.write(self.electricity_company + ' ' + self.electricity_db + ' ' + \
                 self.electricity_pk + '\n')
-        f.write(self.water_company + self.water_db + self.water_pk + '\n')
+        f.write(self.water_company + ' ' + self.water_db + ' ' + \
+                self.water_pk + '\n')
         f.close()
 
 #    def get_last_month_log(database):
