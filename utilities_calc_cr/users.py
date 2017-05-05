@@ -1,6 +1,11 @@
+import os
+
 utilities = [ 'electricity', 'water' ]
 electricity_companies = [ 'cnfl' ]
 water_companies = [ 'aya' ]
+
+USER_INFO = 'info'
+LOG_DIR = 'logs'
 
 class User(object):
     def __init__(self, user_id):
@@ -20,3 +25,13 @@ class User(object):
         print 'User: %s' % (self.user_id)
         print 'Electricity: %s' % (self.electricity_company)
         print 'Water: %s' % (self.water_company)
+
+    def create_account(self):
+        if not os.path.exists(self.user_id):
+            os.makedirs(self.user_id)
+
+        f = open(self.user_id + '/' + USER_INFO, 'a')
+        f.write(self.user_id+ '\n')
+        f.write(self.electricity_company+ '\n')
+        f.write(self.water_company)
+        f.close()
