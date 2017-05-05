@@ -69,4 +69,4 @@ class User(object):
             downloader.get_last_month_log(self.electricity_pk, \
                                           self.user_id + '/' + \
                                           ELECTRIC_DIR + '/' +
-                                          today.strftime('%m-%d-%Y'))
+                                          today.strftime('%Y-%m'))
