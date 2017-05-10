@@ -3,7 +3,7 @@ import urllib
 import re
 import datetime
 
-LOG_NAME = 'log'
+LOG = '.log'
 
 def download_rates(filename, dest_dir):
     """Download rates from websites in list of urls."""
@@ -41,7 +41,7 @@ def get_last_month_log(public_key, dest_dir):
     end_month = this_month.strftime('%m-%d-%Y')
     start_month = last_month.strftime('%m-%d-%Y')
 
-    local_name = LOG_NAME
+    local_name = last_month.strftime('%Y-%m' + LOG)
     url = 'http://data.sparkfun.com/output/'+public_key+'.json?gte[timestamp]='+start_month+'&lt[timestamp]='+end_month+'&eq[name]=total'
     print 'Retrieving...', url
     try:
