@@ -45,14 +45,17 @@ def main():
     elif option == '--testuser':
         today = datetime.date.today()
         last_month = today.replace(month=today.month - 1)
+        str_last_month = last_month.strftime('%Y-%m')
         user = users.User('111650608')
         user.assign_company('electricity', 'cnfl')
         user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
         user.assign_company('water', 'aya')
         user.print_info()
         user.create_account()
-        user.get_last_month_electric_log(last_month.strftime('%Y-%m'))
-        user.log_to_days(last_month.strftime('%Y-%m'))
+        user.electric_get_last_month_log(str_last_month)
+        user.electric_log_to_days(str_last_month)
+        user.electric_extract_time_and_power(str_last_month)
+        user.electric_get_watts_hour(str_last_month)
     else:
         print 'unknown option: ' + option
         sys.exit(1)
