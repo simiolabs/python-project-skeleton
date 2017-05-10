@@ -91,7 +91,7 @@ def extract_time_and_power(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
         for path in paths:
-            if LOG not in path:
+            if not path.endswith(LOG):
                 data_dic = {}
                 print 'Reading:', path
                 day_log_file = open(dirname + '/' + path, 'r')
