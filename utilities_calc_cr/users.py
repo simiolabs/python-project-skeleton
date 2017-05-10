@@ -62,9 +62,6 @@ class User(object):
         f.close()
 
     def get_last_month_electric_log(self, dirname):
-        if not os.path.exists(self.user_id + '/' + ELECTRIC_DIR):
-            os.makedirs(self.user_id + '/' + ELECTRIC_DIR)
-
         if self.electric_db == db[0]:
             today = datetime.date.today()
             downloader.get_last_month_log(self.electric_pk, \
@@ -73,8 +70,6 @@ class User(object):
                                           dirname)
 
     def log_to_days(self, dirname):
-        if os.path.exists(self.user_id + '/' + ELECTRIC_DIR):
-            today = datetime.date.today()
-            parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' +
+        parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' +
                                dirname,
                                downloader.LOG_NAME)
