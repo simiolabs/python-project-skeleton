@@ -77,12 +77,8 @@ def log_to_days(dirname, filename):
             match = re.search(r'(\d+-\d+-\d+)', line)
             if match:
                 month_log_dir = match.group(1)[:7]
-                if not os.path.exists(dirname + '/' + month_log_dir):
-                    print 'Creating...', month_log_dir
-                    os.makedirs(dirname + '/' + month_log_dir)
                 day_log_name = match.group(1)
-                day_log_file = open(dirname + '/' + month_log_dir + '/' + \
-                                    day_log_name, 'a')
+                day_log_file = open(dirname + '/' + day_log_name, 'a')
                 day_log_file.write(line)
                 day_log_file.close()
         log_file.close()
