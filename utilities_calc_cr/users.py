@@ -70,6 +70,5 @@ class User(object):
                                           dirname)
 
     def log_to_days(self, dirname):
-        parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' +
-                               dirname,
-                               downloader.LOG_NAME)
+        parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' + dirname, \
+                           downloader.LOG_NAME)
