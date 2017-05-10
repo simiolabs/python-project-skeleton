@@ -72,7 +72,7 @@ def log_to_days(dirname, filename):
     """Take month long log file and divide it in day long log files."""
     if os.path.exists(dirname + '/' + filename):
         log_file = open(dirname + '/' + filename, 'r')
-        print 'Saving daily logs...'
+        print 'Saving daily logs...',
         for line in log_file:
             match = re.search(r'(\d+-\d+-\d+)', line)
             if match:
@@ -82,6 +82,7 @@ def log_to_days(dirname, filename):
                 day_log_file.write(line)
                 day_log_file.close()
         log_file.close()
+        print 'done'
 
 def extract_time_and_power(dirname):
     """Take day long log file, extract timestamp and real power and save it."""
