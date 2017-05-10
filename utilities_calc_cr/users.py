@@ -78,3 +78,8 @@ class User(object):
         if self.electric_db == db[0]:
             parser.extract_time_and_power(self.user_id + '/' + \
                                           ELECTRIC_DIR  + '/' + dirname)
+
+    def electric_get_watts_hour(self, dirname):
+        if self.electric_db == db[0]:
+            parser.get_watts_hour(self.user_id + '/' + \
+                                  ELECTRIC_DIR  + '/' + dirname)
