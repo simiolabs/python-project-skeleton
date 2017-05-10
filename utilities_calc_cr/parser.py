@@ -3,6 +3,7 @@ import re
 from datetime import datetime, timedelta
 import time
 
+LOG = '.log'
 KW_LOG = '.kw'
 KWH_LOG = '.kwh'
 
@@ -90,19 +91,20 @@ def extract_time_and_power(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
         for path in paths:
-            data_dic = {}
-            print 'Reading:', path
-            day_log_file = open(dirname + '/' + path, 'r')
-            for line in day_log_file:
-                match = re.search(r'\"real_power\":\"(\d+.\d+)\"\S+\"timestamp\":\"\S+T(\d+:\d+:\d+)', line)
-                if match:
-                    temp_list = []
-                    temp_list.append(match.group(1))
-                    data_dic[match.group(2)] = temp_list
-            day_log_file.close()
-            new_file_name = path  + KW_LOG
-            print 'Saving', new_file_name
-            save_dic_to_file(dirname, new_file_name, data_dic)
+            if LOG not in path:
+                data_dic = {}
+                print 'Reading:', path
+                day_log_file = open(dirname + '/' + path, 'r')
+                for line in day_log_file:
+                    match = re.search(r'\"real_power\":\"(\d+.\d+)\"\S+\"timestamp\":\"\S+T(\d+:\d+:\d+)', line)
+                    if match:
+                        temp_list = []
+                        temp_list.append(match.group(1))
+                        data_dic[match.group(2)] = temp_list
+                day_log_file.close()
+                new_file_name = path  + KW_LOG
+                print 'Saving:', new_file_name
+                save_dic_to_file(dirname, new_file_name, data_dic)
 
 def save_dic_to_file(dirname, filename, data_dic):
     """Save a key (timestamp) sorted dic to a file."""
