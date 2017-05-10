@@ -1,6 +1,7 @@
 import os
 import datetime
 import downloader
+import parser
 
 utilities = [ 'electricity', 'water' ]
 electric_companies = [ 'cnfl' ]
@@ -60,7 +61,7 @@ class User(object):
                 self.water_pk + '\n')
         f.close()
 
-    def get_last_month_electric_log(self):
+    def get_last_month_electric_log(self, dirname):
         if not os.path.exists(self.user_id + '/' + ELECTRIC_DIR):
             os.makedirs(self.user_id + '/' + ELECTRIC_DIR)
 
@@ -69,4 +70,11 @@ class User(object):
             downloader.get_last_month_log(self.electric_pk, \
                                           self.user_id + '/' + \
                                           ELECTRIC_DIR + '/' +
-                                          today.strftime('%Y-%m'))
+                                          dirname)
+
+    def log_to_days(self, dirname):
+        if os.path.exists(self.user_id + '/' + ELECTRIC_DIR):
+            today = datetime.date.today()
+            parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' +
+                               dirname,
+                               downloader.LOG_NAME)
