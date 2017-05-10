@@ -19,7 +19,7 @@ def download_rates(filename, dest_dir):
     i = 0
     for url in urls:
         local_name = 'page%d.html' % i
-        print 'Retrieving...', url,
+        print 'Retrieving...', url
         try:
             urllib.urlretrieve(url, os.path.join(dest_dir, local_name))
             i += 1
@@ -43,8 +43,9 @@ def get_last_month_log(public_key, dest_dir):
 
     local_name = LOG_NAME
     url = 'http://data.sparkfun.com/output/'+public_key+'.json?gte[timestamp]='+start_month+'&lt[timestamp]='+end_month+'&eq[name]=total'
-    print 'Retrieving...', url,
+    print 'Retrieving...', url
     try:
         urllib.urlretrieve(url, os.path.join(dest_dir, local_name))
+        print 'Saved in:', local_name
     except Exception, e:
         print e
