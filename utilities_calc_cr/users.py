@@ -61,7 +61,7 @@ class User(object):
                 self.water_pk + '\n')
         f.close()
 
-    def get_last_month_electric_log(self, dirname):
+    def electric_get_last_month_log(self, dirname):
         if self.electric_db == db[0]:
             today = datetime.date.today()
             downloader.get_last_month_log(self.electric_pk, \
@@ -69,6 +69,12 @@ class User(object):
                                           ELECTRIC_DIR + '/' +
                                           dirname)
 
-    def log_to_days(self, dirname):
-        parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' + dirname, \
-                           downloader.LOG_NAME)
+    def electric_log_to_days(self, dirname):
+        if self.electric_db == db[0]:
+            parser.log_to_days(self.user_id + '/' + ELECTRIC_DIR  + '/' + \
+                               dirname, dirname + downloader.LOG)
+
+    def electric_extract_time_and_power(self, dirname):
+        if self.electric_db == db[0]:
+            parser.extract_time_and_power(self.user_id + '/' + \
+                                          ELECTRIC_DIR  + '/' + dirname)
