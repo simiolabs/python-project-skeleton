@@ -1,5 +1,7 @@
 import sys
 
+import datetime
+
 import downloader
 import parser
 import users
@@ -41,13 +43,16 @@ def main():
     elif option == '--getwattshour':
         parser.get_watts_hour('logs/2017-03')
     elif option == '--testuser':
+        today = datetime.date.today()
+        last_month = today.replace(month=today.month - 1)
         user = users.User('111650608')
         user.assign_company('electricity', 'cnfl')
         user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
         user.assign_company('water', 'aya')
         user.print_info()
         user.create_account()
-        user.get_last_month_electric_log()
+        user.get_last_month_electric_log(last_month.strftime('%Y-%m'))
+        user.log_to_days(last_month.strftime('%Y-%m'))
     else:
         print 'unknown option: ' + option
         sys.exit(1)
