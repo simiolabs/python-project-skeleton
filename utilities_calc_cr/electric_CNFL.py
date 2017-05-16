@@ -63,9 +63,6 @@ FIRE_DEP_TAX =          1.750
 #street lighting tribute
 STREET_LIGHT_TRIBUTE =  3.51
 
-#files
-SEG_FILE = 'trr.seg'
-
 
 #determine segment according to time
 def get_time_segment(timestamp):
@@ -136,12 +133,12 @@ def get_fire_department_tribute(total_watts, total_cost, plan):
 def get_street_lighting_tribute(total_watts):
     return (total_watts * STREET_LIGHT_TRIBUTE)
 
-def get_time_segment_totals_trr(dirname):
+def calculate_bill_trr(dirname):
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
         for path in paths:
-            if path.endswith(parser.KWH_LOG):
+            if path.endswith('.kwh'):
                 off_peak_total = 0
                 peak_total = 0
                 night_total = 0
@@ -156,13 +153,6 @@ def get_time_segment_totals_trr(dirname):
                         peak_total += float(data_dic[key][0])
                     elif segment is NIGHT_TIME:
                         night_total += float(data_dic[key][0])
-                #print 'op', off_peak_total, 'p', peak_total, 'n', night_total
-                f = open(dirname + '/' + SEG_FILE, 'a')
-                f.write(path[:-4] + ' ' + str(OFF_PEAK_TIME) + ' ' +
-                        str(off_peak_total) + '\n')
-                f.write(path[:-4] + ' ' + str(PEAK_TIME) + ' ' + \
-                        str(peak_total) + '\n')
-                f.write(path[:-4] + ' ' + str(NIGHT_TIME) + ' ' + \
-                        str(night_total) + '\n')
-                f.close()
-        print 'Segment totals saved in:', SEG_FILE
+                print 'op', off_peak_total
+                print 'p', peak_total
+                print 'n', night_total
