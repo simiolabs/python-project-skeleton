@@ -147,4 +147,12 @@ def calculate_bill_trr(dirname):
                 sorted_keys = sorted(data_dic)
                 for key in sorted_keys:
                     segment = get_time_segment(key)
-                    print key, segment
+                    if segment is OFF_PEAK_TIME:
+                        off_peak_total += float(data_dic[key][0])
+                    elif segment is PEAK_TIME:
+                        peak_total += float(data_dic[key][0])
+                    elif segment is NIGHT_TIME:
+                        night_total += float(data_dic[key][0])
+                print 'op', off_peak_total
+                print 'p', peak_total
+                print 'n', night_total
