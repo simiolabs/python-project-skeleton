@@ -5,6 +5,7 @@ import datetime
 import downloader
 import parser
 import users
+import electric_CNFL
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
@@ -12,6 +13,10 @@ def main():
     if len(sys.argv) != 2:
         print 'usage: ./wordcount.py {--count | --topcount} file'
         sys.exit(1)
+
+    today = datetime.date.today()
+    last_month = today.replace(month=today.month - 1)
+    str_last_month = last_month.strftime('%Y-%m')
 
     option = sys.argv[1]
     #filename = sys.argv[2]
@@ -43,9 +48,6 @@ def main():
     elif option == '--getwattshour':
         parser.get_watts_hour('logs/2017-03')
     elif option == '--testuser':
-        today = datetime.date.today()
-        last_month = today.replace(month=today.month - 1)
-        str_last_month = last_month.strftime('%Y-%m')
         user = users.User('111650608')
         user.assign_company('electricity', 'cnfl')
         user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
@@ -56,6 +58,13 @@ def main():
         user.electric_log_to_days(str_last_month)
         user.electric_extract_time_and_power(str_last_month)
         user.electric_get_watts_hour(str_last_month)
+    elif option == '--calcbill':
+        user = users.User('111650608')
+        user.assign_company('electricity', 'cnfl')
+        user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
+        user.assign_company('water', 'aya')
+        user.print_info()
+        user.electric_calculate_bill_trr(str_last_month)
     else:
         print 'unknown option: ' + option
         sys.exit(1)

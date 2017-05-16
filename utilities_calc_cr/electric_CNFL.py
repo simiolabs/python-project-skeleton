@@ -1,4 +1,6 @@
 import time
+import os
+import parser
 #CNFL
 
 OFF_PEAK_TIME =         0
@@ -6,18 +8,18 @@ PEAK_TIME =             1
 NIGHT_TIME =            2
 
 #times
-start_offpeak_time1 = time.strptime('06:01', '%H:%M')
-end_offpeak_time1   = time.strptime('10:00', '%H:%M')
-start_peak_time1    = time.strptime('10:01', '%H:%M')
-end_peak_time1      = time.strptime('12:30', '%H:%M')
-start_offpeak_time2 = time.strptime('12:31', '%H:%M')
-end_offpeak_time2   = time.strptime('17:30', '%H:%M')
-start_peak_time2    = time.strptime('17:31', '%H:%M')
-end_peak_time2      = time.strptime('20:00', '%H:%M')
-start_night_time1   = time.strptime('20:01', '%H:%M')
-end_night_time1     = time.strptime('23:59', '%H:%M')
-start_night_time2   = time.strptime('00:00', '%H:%M')
-end_night_time2     = time.strptime('06:00', '%H:%M')
+start_offpeak_time1 = time.strptime('06:01:00', '%H:%M:%S')
+end_offpeak_time1   = time.strptime('10:00:59', '%H:%M:%S')
+start_peak_time1    = time.strptime('10:01:00', '%H:%M:%S')
+end_peak_time1      = time.strptime('12:30:59', '%H:%M:%S')
+start_offpeak_time2 = time.strptime('12:31:00', '%H:%M:%S')
+end_offpeak_time2   = time.strptime('17:30:59', '%H:%M:%S')
+start_peak_time2    = time.strptime('17:31:00', '%H:%M:%S')
+end_peak_time2      = time.strptime('20:00:59', '%H:%M:%S')
+start_night_time1   = time.strptime('20:01:00', '%H:%M:%S')
+end_night_time1     = time.strptime('23:59:59', '%H:%M:%S')
+start_night_time2   = time.strptime('00:00:00', '%H:%M:%S')
+end_night_time2     = time.strptime('06:00:59', '%H:%M:%S')
 
 #TIME RESIDENTIAL RATE
 TRR_LOW =               0
@@ -64,7 +66,7 @@ STREET_LIGHT_TRIBUTE =  3.51
 
 #determine segment according to time
 def get_time_segment(timestamp):
-    ts = time.strptime(timestamp, '%H:%M')
+    ts = time.strptime(timestamp, '%H:%M:%S')
     #peak time
     if ((ts >= start_peak_time1 and ts <= end_peak_time1) or
         (ts >= start_peak_time2 and ts <= end_peak_time2)):
@@ -130,3 +132,19 @@ def get_fire_department_tribute(total_watts, total_cost, plan):
 #street lighting tribute
 def get_street_lighting_tribute(total_watts):
     return (total_watts * STREET_LIGHT_TRIBUTE)
+
+def calculate_bill_trr(dirname):
+    if os.path.exists(dirname):
+        paths = os.listdir(dirname)
+        paths = sorted(paths)
+        for path in paths:
+            if path.endswith('.kwh'):
+                off_peak_total = 0
+                peak_total = 0
+                night_total = 0
+                print 'Reading...', path
+                data_dic = parser.load_dic_from_file(dirname, path)
+                sorted_keys = sorted(data_dic)
+                for key in sorted_keys:
+                    segment = get_time_segment(key)
+                    print key, segment

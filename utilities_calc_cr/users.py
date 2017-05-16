@@ -2,6 +2,7 @@ import os
 import datetime
 import downloader
 import parser
+import electric_CNFL
 
 utilities = [ 'electricity', 'water' ]
 electric_companies = [ 'cnfl' ]
@@ -83,3 +84,8 @@ class User(object):
         if self.electric_db == db[0]:
             parser.get_watts_hour(self.user_id + '/' + \
                                   ELECTRIC_DIR  + '/' + dirname)
+
+    def electric_calculate_bill_trr(self, dirname):
+        if self.electric_db == db[0]:
+            electric_CNFL.calculate_bill_trr(self.user_id + '/' + \
+                                             ELECTRIC_DIR  + '/' + dirname)
