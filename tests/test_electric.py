@@ -2,13 +2,13 @@ from nose.tools import *
 from utilities_calc_cr.electric_CNFL import *
 
 def test_get_time_segment():
-    assert_equal(get_time_segment('07:00'), OFF_PEAK_TIME)
-    assert_equal(get_time_segment('11:00'), PEAK_TIME)
-    assert_equal(get_time_segment('12:00'), PEAK_TIME)
-    assert_equal(get_time_segment('15:00'), OFF_PEAK_TIME)
-    assert_equal(get_time_segment('18:00'), PEAK_TIME)
-    assert_equal(get_time_segment('21:00'), NIGHT_TIME)
-    assert_equal(get_time_segment('02:00'), NIGHT_TIME)
+    assert_equal(get_time_segment('07:00:00'), OFF_PEAK_TIME)
+    assert_equal(get_time_segment('11:00:00'), PEAK_TIME)
+    assert_equal(get_time_segment('12:00:00'), PEAK_TIME)
+    assert_equal(get_time_segment('15:00:00)'), OFF_PEAK_TIME)
+    assert_equal(get_time_segment('18:00:00'), PEAK_TIME)
+    assert_equal(get_time_segment('21:00:00'), NIGHT_TIME)
+    assert_equal(get_time_segment('02:00:00'), NIGHT_TIME)
 
 def test_get_consumption_segment_trr():
     assert_equal(get_consumption_segment_trr(50), TRR_LOW)
