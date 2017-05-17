@@ -90,3 +90,7 @@ class User(object):
             electric_CNFL.get_time_segment_totals_trr(self.user_id + '/' + \
                                                       ELECTRIC_DIR  + '/' + \
                                                       dirname)
+    def electric_get_totals_trr(self, dirname):
+        if self.electric_db == db[0]:
+            electric_CNFL.calculate_cost(self.user_id + '/' + \
+                                         ELECTRIC_DIR  + '/' + dirname)

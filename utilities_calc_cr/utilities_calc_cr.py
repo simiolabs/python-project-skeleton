@@ -65,6 +65,7 @@ def main():
         user.assign_company('water', 'aya')
         user.print_info()
         user.electric_get_time_segment_totals_trr(str_last_month)
+        user.electric_get_totals_trr(str_last_month)
     else:
         print 'unknown option: ' + option
         sys.exit(1)

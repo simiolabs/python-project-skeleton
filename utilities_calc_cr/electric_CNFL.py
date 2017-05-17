@@ -185,5 +185,20 @@ def get_totals_trr(dirname):
 #TODO chage this name
 def calculate_cost(dirname):
     if os.path.exists(dirname):
-        total_list = get_totals_trr(dirname)
-        print total_list
+        off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
+        totals_list = get_totals_trr(dirname)
+        print totals_list
+        #TODO this looks terrible, bring those functions to this file
+        costs_list = parser.get_trr('rates', 'rates-CNFL')
+        print costs_list
+
+def calculate_cost_off_peak_trr(watts, costs_list):
+    off_peak_cost = 0
+    if get_consumption_segment_trr(watts) is TRR_LOW:
+        off_peak_cost *= costs_list[TRR_LOW][OFF_PEAK_TIME]
+        watts -= float(TRR_LOW_POWER)
+    if get_consumption_segment_trr(watts) is TRR_MID:
+
+#def calculate_cost_peak_trr(watts):
+
+#def calculate_cost_night_trr(watts):
