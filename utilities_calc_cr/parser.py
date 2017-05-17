@@ -46,7 +46,7 @@ def get_trr(dirname, filename):
                 i += 1
             twod_list.append(new)
 
-        print twod_list
+        #print twod_list
         return twod_list
 #TODO move to electric_CNFL library
 def get_rr(dirname, filename):
@@ -56,7 +56,7 @@ def get_rr(dirname, filename):
         f = open(dirname + '/' + filename, 'r')
         rate_list = f.read().splitlines()
         rate_list = rate_list[9:13]
-        print rate_list
+        #print rate_list
         return rate_list
 #TODO move to electric_CNFL library
 def get_pr(dirname, filename):
@@ -66,7 +66,7 @@ def get_pr(dirname, filename):
         f = open(dirname + '/' + filename, 'r')
         rate_list = f.read().splitlines()
         rate_list = rate_list[13:]
-        print rate_list
+        #print rate_list
         return rate_list
 
 def log_to_days(dirname, filename):
