@@ -29,7 +29,7 @@ def save_rates(dirname, filename, rates):
         rate = rate.replace(',', '.')
         f.write(rate + '\n')
     f.close()
-
+#TODO move to electric_CNFL library
 def get_trr(dirname, filename):
     """Read TRR and return list."""
     if os.path.exists(dirname + '/' + filename):
@@ -48,7 +48,7 @@ def get_trr(dirname, filename):
 
         print twod_list
         return twod_list
-
+#TODO move to electric_CNFL library
 def get_rr(dirname, filename):
     """Read RR and return list."""
     if os.path.exists(dirname + '/' + filename):
@@ -58,7 +58,7 @@ def get_rr(dirname, filename):
         rate_list = rate_list[9:13]
         print rate_list
         return rate_list
-
+#TODO move to electric_CNFL library
 def get_pr(dirname, filename):
     """Read PR and return list."""
     if os.path.exists(dirname + '/' + filename):
