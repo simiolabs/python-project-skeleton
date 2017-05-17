@@ -137,15 +137,13 @@ def get_street_lighting_tribute(total_watts):
     return (total_watts * STREET_LIGHT_TRIBUTE)
 
 def get_time_segment_totals_trr(dirname):
-
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
+        trr_seg_dic = {}
         for path in paths:
             if path.endswith(parser.KWH_LOG):
-                off_peak_total = 0
-                peak_total = 0
-                night_total = 0
+                off_peak_total, peak_total, night_total = (0 for i in range(3))
                 print 'Reading...', path
                 data_dic = parser.load_dic_from_file(dirname, path)
                 sorted_keys = sorted(data_dic)
@@ -158,14 +156,11 @@ def get_time_segment_totals_trr(dirname):
                     elif segment is NIGHT_TIME:
                         night_total += float(data_dic[key][0])
                 #print 'op', off_peak_total, 'p', peak_total, 'n', night_total
-                f = open(dirname + '/' + SEG_FILE, 'a')
-                f.write(path[:-4] + ' ' + str(OFF_PEAK_TIME) + ' ' +
-                        str(off_peak_total) + '\n')
-                f.write(path[:-4] + ' ' + str(PEAK_TIME) + ' ' + \
-                        str(peak_total) + '\n')
-                f.write(path[:-4] + ' ' + str(NIGHT_TIME) + ' ' + \
-                        str(night_total) + '\n')
-                f.close()
+                key = path[:-4]
+                temp_list = []
+                temp_list.append(str(off_peak_total))
+                temp_list.append(str(peak_total))
+                temp_list.append(str(night_total))
+                trr_seg_dic[key] = temp_list
         print 'Segment totals saved in:', SEG_FILE
-
-def get_
+        parser.save_dic_to_file(dirname, SEG_FILE, trr_seg_dic)
