@@ -8,12 +8,12 @@ PEAK_TIME =             1
 NIGHT_TIME =            2
 
 #times
-start_offpeak_time1 = time.strptime('06:01:00', '%H:%M:%S')
-end_offpeak_time1   = time.strptime('10:00:59', '%H:%M:%S')
+start_off_peak_time1 = time.strptime('06:01:00', '%H:%M:%S')
+end_off_peak_time1   = time.strptime('10:00:59', '%H:%M:%S')
 start_peak_time1    = time.strptime('10:01:00', '%H:%M:%S')
 end_peak_time1      = time.strptime('12:30:59', '%H:%M:%S')
-start_offpeak_time2 = time.strptime('12:31:00', '%H:%M:%S')
-end_offpeak_time2   = time.strptime('17:30:59', '%H:%M:%S')
+start_off_peak_time2 = time.strptime('12:31:00', '%H:%M:%S')
+end_off_peak_time2   = time.strptime('17:30:59', '%H:%M:%S')
 start_peak_time2    = time.strptime('17:31:00', '%H:%M:%S')
 end_peak_time2      = time.strptime('20:00:59', '%H:%M:%S')
 start_night_time1   = time.strptime('20:01:00', '%H:%M:%S')
@@ -74,9 +74,9 @@ def get_time_segment(timestamp):
     if ((ts >= start_peak_time1 and ts <= end_peak_time1) or
         (ts >= start_peak_time2 and ts <= end_peak_time2)):
         return PEAK_TIME
-    #offpeak time
-    elif ((ts >= start_offpeak_time1 and ts <= end_offpeak_time1) or
-          (ts >= start_offpeak_time2 and ts <= end_offpeak_time2)):
+    #off_peak time
+    elif ((ts >= start_off_peak_time1 and ts <= end_off_peak_time1) or
+          (ts >= start_off_peak_time2 and ts <= end_off_peak_time2)):
         return OFF_PEAK_TIME
     #night time
     elif ((ts >= start_night_time1 and ts <= end_night_time1) or
@@ -137,6 +137,7 @@ def get_street_lighting_tribute(total_watts):
     return (total_watts * STREET_LIGHT_TRIBUTE)
 
 def get_time_segment_totals_trr(dirname):
+
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
@@ -166,3 +167,5 @@ def get_time_segment_totals_trr(dirname):
                         str(night_total) + '\n')
                 f.close()
         print 'Segment totals saved in:', SEG_FILE
+
+def get_
