@@ -135,7 +135,7 @@ def get_fire_department_tribute(total_watts, total_cost, plan):
 #street lighting tribute
 def get_street_lighting_tribute(total_watts):
     return (total_watts * STREET_LIGHT_TRIBUTE)
-
+#TODO change this name
 def get_time_segment_totals_trr(dirname):
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
@@ -164,3 +164,26 @@ def get_time_segment_totals_trr(dirname):
                 trr_seg_dic[key] = temp_list
         print 'Segment totals saved in:', SEG_FILE
         parser.save_dic_to_file(dirname, SEG_FILE, trr_seg_dic)
+#TODO change this name
+def get_totals_trr(dirname):
+    if os.path.exists(dirname):
+        total_list = []
+        off_peak_total, peak_total, night_total = (0 for i in range(3))
+        print 'Reading...', SEG_FILE
+        data_dic = parser.load_dic_from_file(dirname, SEG_FILE)
+        sorted_keys = sorted(data_dic)
+        for key in sorted_keys:
+            off_peak_total += float(data_dic[key][OFF_PEAK_TIME])
+            peak_total += float(data_dic[key][PEAK_TIME])
+            night_total += float(data_dic[key][NIGHT_TIME])
+        total_list.append(off_peak_total)
+        total_list.append(peak_total)
+        total_list.append(night_total)
+        #print total_list
+        return total_list
+
+#TODO chage this name
+def calculate_cost(dirname):
+    if os.path.exists(dirname):
+        total_list = get_totals_trr(dirname)
+        print total_list
