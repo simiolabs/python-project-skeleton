@@ -3,6 +3,10 @@ import os
 import parser
 #CNFL
 
+TRR = 'trr'
+TR = 'tr'
+TP = 'tp'
+
 OFF_PEAK_TIME =         0
 PEAK_TIME =             1
 NIGHT_TIME =            2
@@ -173,9 +177,9 @@ def get_totals_trr(dirname):
         data_dic = parser.load_dic_from_file(dirname, SEG_FILE)
         sorted_keys = sorted(data_dic)
         for key in sorted_keys:
-            off_peak_total += float(data_dic[key][OFF_PEAK_TIME])
-            peak_total += float(data_dic[key][PEAK_TIME])
-            night_total += float(data_dic[key][NIGHT_TIME])
+            off_peak_total += float(data_dic[key][OFF_PEAK_TIME]) / 1000
+            peak_total += float(data_dic[key][PEAK_TIME]) / 1000
+            night_total += float(data_dic[key][NIGHT_TIME]) / 1000
         total_list.append(off_peak_total)
         total_list.append(peak_total)
         total_list.append(night_total)
@@ -183,7 +187,7 @@ def get_totals_trr(dirname):
         return total_list
 
 #TODO chage this name
-def calculate_cost(dirname):
+def calculate_cost_trr(dirname, plan):
     if os.path.exists(dirname):
         off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
         totals_list = get_totals_trr(dirname)
@@ -191,13 +195,33 @@ def calculate_cost(dirname):
         #TODO this looks terrible, bring those functions to this file
         costs_list = parser.get_trr('rates', 'rates-CNFL')
         print costs_list
+        if plan is TRR:
+            calculate_cost_off_peak_trr(totals_list[0], costs_list)
 
-def calculate_cost_off_peak_trr(watts, costs_list):
+def calculate_cost_off_peak_trr(total_watts, costs_list):
     off_peak_cost = 0
-    if get_consumption_segment_trr(watts) is TRR_LOW:
-        off_peak_cost *= costs_list[TRR_LOW][OFF_PEAK_TIME]
-        watts -= float(TRR_LOW_POWER)
-    if get_consumption_segment_trr(watts) is TRR_MID:
+    watts = 0
+    if get_consumption_segment_trr(total_watts) is TRR_HIGH:
+        watts = total_watts - float(TRR_HIGH_POWER)
+        off_peak_cost += watts * float(costs_list[TRR_HIGH][OFF_PEAK_TIME])
+        total_watts -= watts
+        print 'cost2', off_peak_cost
+        print 'watts2', watts
+        print 'total watts', total_watts
+    if get_consumption_segment_trr(total_watts) is TRR_MID:
+        watts = total_watts - float(TRR_LOW_POWER)
+        off_peak_cost += watts * float(costs_list[TRR_MID][OFF_PEAK_TIME])
+        total_watts -= watts
+        print 'cost1', off_peak_cost
+        print 'watts1', watts
+        print 'total watts', total_watts
+    if get_consumption_segment_trr(total_watts) is TRR_LOW:
+        watts = total_watts
+        off_peak_cost += watts * float(costs_list[TRR_MID][OFF_PEAK_TIME])
+        total_watts -= watts
+        print 'cost1', off_peak_cost
+        print 'watts1', watts
+        print 'total watts', total_watts
 
 #def calculate_cost_peak_trr(watts):
 
