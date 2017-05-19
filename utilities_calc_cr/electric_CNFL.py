@@ -101,7 +101,7 @@ class TimeResidentialRate(ElectricCNFL):
     def __init__(self):
         pass
 
-    def get_time_segment_trr(timestamp):
+    def get_time_segment_trr(self, timestamp):
         """Determine segment according to time."""
         ts = time.strptime(timestamp, '%H:%M:%S')
         #peak time
@@ -119,7 +119,7 @@ class TimeResidentialRate(ElectricCNFL):
         else:
             return -1
 
-    def get_time_segments_day_totals_trr(dirname):
+    def get_time_segments_day_totals_trr(self, dirname):
         """Add all watts separated by time segments in file and save in a new file
         as: DATE PEAK_TOTAL OFF_PEAK_TOTAL NIGHT_TOTAL."""
         if os.path.exists(dirname):
@@ -133,7 +133,7 @@ class TimeResidentialRate(ElectricCNFL):
                     data_dic = parser.load_dic_from_file(dirname, path)
                     sorted_keys = sorted(data_dic)
                     for key in sorted_keys:
-                        segment = get_time_segment_trr(key)
+                        segment = self.get_time_segment_trr(key)
                         if segment is PEAK_TIME:
                             peak_total += float(data_dic[key][0])
                         elif segment is OFF_PEAK_TIME:
@@ -150,7 +150,7 @@ class TimeResidentialRate(ElectricCNFL):
             print 'Segment totals saved in:', SEG_FILE
             parser.save_dic_to_file(dirname, SEG_FILE, trr_seg_dic)
 
-    def get_consumption_segment_trr(watts):
+    def get_consumption_segment_trr(self, watts):
         """Determine consumption segment according to watts."""
         if (watts <= TRR_LOW_POWER):
             return TRR_LOW
@@ -161,29 +161,29 @@ class TimeResidentialRate(ElectricCNFL):
         else:
             return -1
 
-    def get_time_segment_cost_trr(total_watts, costs_list, time_seg):
+    def get_time_segment_cost_trr(self, total_watts, costs_list, time_seg):
         """Calculate the cost of some watts according to it's time and consumption
         segment."""
         total_cost = 0
         watts = 0
-        if get_consumption_segment_trr(total_watts) is TRR_HIGH:
+        if self.get_consumption_segment_trr(total_watts) is TRR_HIGH:
             watts = total_watts - float(TRR_HIGH_POWER)
             total_cost += watts * float(costs_list[TRR_HIGH][time_seg])
             total_watts -= watts
             print 'cost2', total_cost, 'watts2', watts, 'total_w', total_watts
-        if get_consumption_segment_trr(total_watts) is TRR_MID:
+        if self.get_consumption_segment_trr(total_watts) is TRR_MID:
             watts = total_watts - float(TRR_LOW_POWER)
             total_cost += watts * float(costs_list[TRR_MID][time_seg])
             total_watts -= watts
             print 'cost1', total_cost, 'watts1', watts, 'total_w', total_watts
-        if get_consumption_segment_trr(total_watts) is TRR_LOW:
+        if self.get_consumption_segment_trr(total_watts) is TRR_LOW:
             watts = total_watts
             total_cost += watts * float(costs_list[TRR_LOW][time_seg])
             total_watts -= watts
             print 'cost0', total_cost, 'watts1', watts, 'total_w', total_watts
         return total_cost
 
-    def get_time_segments_totals_trr(dirname):
+    def get_time_segments_totals_trr(self, dirname):
         """Read from a file all the daily time segmented totals, add them and return
         them in a list."""
         if os.path.exists(dirname):
@@ -202,7 +202,7 @@ class TimeResidentialRate(ElectricCNFL):
             #print total_list
             return total_list
 
-    def get_rates_trr(dirname, filename):
+    def get_rates_trr(self, dirname, filename):
         """Read TRR and return list."""
         if os.path.exists(dirname + '/' + filename):
             rate_list = []
@@ -221,22 +221,25 @@ class TimeResidentialRate(ElectricCNFL):
             #print twod_list
             return twod_list
 
-    def get_total_cost_trr(dirname, plan):
+    def get_total_cost_trr(self, dirname, plan):
         """Get the total costs for every segment, add them and return the result."""
         if os.path.exists(dirname):
             off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
-            totals_list = get_time_segments_totals_trr(dirname)
+            totals_list = self.get_time_segments_totals_trr(dirname)
             print totals_list
             #TODO these should be global variables
-            costs_list = get_rates_trr(RATES_FOLDER, RATES_FILE)
+            costs_list = self.get_rates_trr(RATES_FOLDER, RATES_FILE)
             print costs_list
             if plan is TRR:
-                peak_cost = get_time_segment_cost_trr(totals_list[0], costs_list, \
-                                                      PEAK_TIME)
-                off_peak_cost = get_time_segment_cost_trr(totals_list[1], \
-                                                          costs_list, OFF_PEAK_TIME)
-                night_cost = get_time_segment_cost_trr(totals_list[2], costs_list, \
-                                                       NIGHT_TIME)
+                peak_cost = self.get_time_segment_cost_trr(totals_list[0], \
+                                                           costs_list, \
+                                                           PEAK_TIME)
+                off_peak_cost = self.get_time_segment_cost_trr(totals_list[1], \
+                                                               costs_list, \
+                                                               OFF_PEAK_TIME)
+                night_cost = self.get_time_segment_cost_trr(totals_list[2], \
+                                                            costs_list, \
+                                                            NIGHT_TIME)
             return peak_cost + off_peak_cost + night_cost
 
 class ResidentialRate(ElectricCNFL):

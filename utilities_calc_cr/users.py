@@ -2,7 +2,7 @@ import os
 import datetime
 import downloader
 import parser
-import electric_CNFL
+from electric_CNFL import *
 
 utilities = [ 'electricity', 'water' ]
 electric_companies = [ 'cnfl' ]
@@ -91,8 +91,9 @@ class User(object):
 
     def electric_get_total_cost_trr(self, dirname):
         if self.electric_db == db[0]:
+            trr = TimeResidentialRate()
             path = self.user_id + '/' + ELECTRIC_DIR + '/' + dirname
-            electric_CNFL.get_time_segments_day_totals_trr(path)
-            trr_total = electric_CNFL.get_total_cost_trr(path, \
+            trr.get_time_segments_day_totals_trr(path)
+            trr_total = trr.get_total_cost_trr(path, \
                                                          self.electric_plan)
             print 'Total TRR:', trr_total
