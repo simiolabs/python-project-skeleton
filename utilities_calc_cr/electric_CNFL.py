@@ -86,14 +86,14 @@ class ElectricCNFL(object):
         rates_list = parser.read_rates(RATES_FOLDER, RATES_HTML)
         parser.save_rates(RATES_FOLDER, RATES_FILE, rates_list)
 
-    def get_fire_department_tribute(total_watts, total_cost, plan):
+    def get_fire_department_tribute(self, total_watts, total_cost, plan):
         """Calculate fire department tribute."""
         if (plan == 'TRR' or plan == 'RR' or plan == 'PR'):
             return (total_cost * FIRE_DEP_TRIBUTE)
         else:
             return (total_cost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
 
-    def get_street_lighting_tribute(total_watts):
+    def get_street_lighting_tribute(self, total_watts):
         """Calculate street lighting tribute."""
         return (total_watts * STREET_LIGHT_TRIBUTE)
 
@@ -249,7 +249,7 @@ class ResidentialRate(ElectricCNFL):
     def __init__(self):
         pass
 
-    def get_consumption_segment_rr(watts):
+    def get_consumption_segment_rr(self, watts):
         """Determine consumption segment according to watts."""
         if (watts <= RR_FIXED_CHARGE):
             return RR_FIXED
@@ -262,7 +262,7 @@ class ResidentialRate(ElectricCNFL):
         else:
             return -1
 
-    def get_rates_rr(dirname, filename):
+    def get_rates_rr(self, dirname, filename):
         """Read RR and return list."""
         if os.path.exists(dirname + '/' + filename):
             rate_list = []
@@ -276,7 +276,7 @@ class PreferentialRate(ElectricCNFL):
     def __init__(self):
         pass
 
-    def get_consumption_segment_pr(watts, plan):
+    def get_consumption_segment_pr(self, watts, plan):
         """Determine consumption segment according to watts and plan."""
         if (watts <= PR_LOW_POWER and plan == PR_ENERGY):
             return PR_E_LOW
@@ -291,7 +291,7 @@ class PreferentialRate(ElectricCNFL):
         else:
             return -1
 
-    def get_rates_pr(dirname, filename):
+    def get_rates_pr(self, dirname, filename):
         """Read PR and return list."""
         if os.path.exists(dirname + '/' + filename):
             rate_list = []
