@@ -131,7 +131,7 @@ def get_consumption_segment_trr(watts):
     else:
         return -1
 
-def calculate_time_segment_cost_trr(total_watts, costs_list, time_seg):
+def get_time_segment_cost_trr(total_watts, costs_list, time_seg):
     """Calculate the cost of some watts according to it's time and consumption
     segment."""
     total_cost = 0
@@ -191,7 +191,7 @@ def get_rates_trr(dirname, filename):
         #print twod_list
         return twod_list
 
-def calculate_total_cost_trr(dirname, plan):
+def get_total_cost_trr(dirname, plan):
     """Get the total costs for every segment, add them and return the result."""
     if os.path.exists(dirname):
         off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
@@ -201,13 +201,13 @@ def calculate_total_cost_trr(dirname, plan):
         costs_list = get_rates_trr('rates', 'rates-CNFL')
         print costs_list
         if plan is TRR:
-            peak_cost = calculate_time_segment_cost_trr(totals_list[0], \
+            peak_cost = get_time_segment_cost_trr(totals_list[0], \
                                                         costs_list, \
                                                         PEAK_TIME)
-            off_peak_cost = calculate_time_segment_cost_trr(totals_list[1], \
+            off_peak_cost = get_time_segment_cost_trr(totals_list[1], \
                                                          costs_list, \
                                                          OFF_PEAK_TIME)
-            night_cost = calculate_time_segment_cost_trr(totals_list[2], \
+            night_cost = get_time_segment_cost_trr(totals_list[2], \
                                                          costs_list, \
                                                          NIGHT_TIME)
         return peak_cost + off_peak_cost + night_cost
