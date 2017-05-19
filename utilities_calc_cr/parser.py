@@ -16,7 +16,7 @@ def read_rates(dirname, filename):
         f.close()
         matches = re.findall(r'(\S+,\d+)</p>', text)
         if matches:
-            matches[6] = matches[6][2:] #TODO dirty fix for html page error
+            matches[6] = matches[6][2:] #HACK dirty fix for html page error
             print matches
         return matches
 
