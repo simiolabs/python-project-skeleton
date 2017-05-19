@@ -235,9 +235,10 @@ def calculate_total_cost_trr(dirname, plan):
         print costs_list
         if plan is TRR:
             peak_cost = calculate_peak_cost_trr(totals_list[0], costs_list)
-            off_peak_total = calculate_off_peak_cost_trr(totals_list[1], \
+            off_peak_cost = calculate_off_peak_cost_trr(totals_list[1], \
                                                          costs_list)
-            night_total = calculate_night_cost_trr(totals_list[2], costs_list)
+            night_cost = calculate_night_cost_trr(totals_list[2], costs_list)
+        return peak_cost + off_peak_cost + night_cost
 
 #determine consumption segment according to watts
 def get_consumption_segment_rr(watts):

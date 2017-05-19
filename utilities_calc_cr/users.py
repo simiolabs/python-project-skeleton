@@ -90,4 +90,5 @@ class User(object):
             path = self.user_id + '/' + ELECTRIC_DIR + '/' + dirname
             electric_CNFL.get_time_segments_day_totals_trr(path)
             #TODO add a plan type to user
-            electric_CNFL.calculate_total_cost_trr(path, 'trr')
+            trr_total = electric_CNFL.calculate_total_cost_trr(path, 'trr')
+            print 'Total TRR:', trr_total
