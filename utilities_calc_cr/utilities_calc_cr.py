@@ -5,7 +5,7 @@ import datetime
 import downloader
 import parser
 import users
-import electric_CNFL
+from electric_CNFL import *
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
@@ -21,7 +21,7 @@ def main():
     option = sys.argv[1]
     #filename = sys.argv[2]
     if option == '--getrates':
-        electric = electric_CNFL.ElectricCNFL()
+        electric = ElectricCNFL()
         electric.get_rates()
     elif option == '--getlog':
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
