@@ -71,8 +71,8 @@ STREET_LIGHT_TRIBUTE =  3.51
 SEG_FILE = 'trr.seg'
 
 
-#determine segment according to time
 def get_time_segment_trr(timestamp):
+    """Determine segment according to time."""
     ts = time.strptime(timestamp, '%H:%M:%S')
     #peak time
     if ((ts >= start_peak_time1 and ts <= end_peak_time1) or
@@ -90,6 +90,8 @@ def get_time_segment_trr(timestamp):
         return -1
 
 def get_time_segments_day_totals_trr(dirname):
+    """Add all watts separated by time segments in file and save in a new file
+    as: DATE PEAK_TOTAL OFF_PEAK_TOTAL NIGHT_TOTAL."""
     if os.path.exists(dirname):
         paths = os.listdir(dirname)
         paths = sorted(paths)
@@ -118,8 +120,8 @@ def get_time_segments_day_totals_trr(dirname):
         print 'Segment totals saved in:', SEG_FILE
         parser.save_dic_to_file(dirname, SEG_FILE, trr_seg_dic)
 
-#determine consumption segment according to watts
 def get_consumption_segment_trr(watts):
+    """Determine consumption segment according to watts."""
     if (watts <= TRR_LOW_POWER):
         return TRR_LOW
     elif (watts > TRR_LOW_POWER and watts <= TRR_HIGH_POWER):
@@ -130,6 +132,8 @@ def get_consumption_segment_trr(watts):
         return -1
 
 def calculate_time_segment_cost_trr(total_watts, costs_list, time_seg):
+    """Calculate the cost of some watts according to it's time and consumption
+    segment."""
     total_cost = 0
     watts = 0
     if get_consumption_segment_trr(total_watts) is TRR_HIGH:
@@ -150,6 +154,8 @@ def calculate_time_segment_cost_trr(total_watts, costs_list, time_seg):
     return total_cost
 
 def get_time_segments_totals_trr(dirname):
+    """Read from a file all the daily time segmented totals, add them and return
+    them in a list."""
     if os.path.exists(dirname):
         total_list = []
         off_peak_total, peak_total, night_total = (0 for i in range(3))
@@ -186,6 +192,7 @@ def get_rates_trr(dirname, filename):
         return twod_list
 
 def calculate_total_cost_trr(dirname, plan):
+    """Get the total costs for every segment, add them and return the result."""
     if os.path.exists(dirname):
         off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
         totals_list = get_time_segments_totals_trr(dirname)
@@ -205,8 +212,8 @@ def calculate_total_cost_trr(dirname, plan):
                                                          NIGHT_TIME)
         return peak_cost + off_peak_cost + night_cost
 
-#determine consumption segment according to watts
 def get_consumption_segment_rr(watts):
+    """Determine consumption segment according to watts."""
     if (watts <= RR_FIXED_CHARGE):
         return RR_FIXED
     elif (watts > RR_FIXED_CHARGE and watts <= RR_LOW_POWER):
@@ -228,8 +235,8 @@ def get_rates_rr(dirname, filename):
         #print rate_list
         return rate_list
 
-#determine consumption segment according to watts and plan
 def get_consumption_segment_pr(watts, plan):
+    """Determine consumption segment according to watts and plan."""
     if (watts <= PR_LOW_POWER and plan == PR_ENERGY):
         return PR_E_LOW
     elif (watts <= PR_LOW_POWER and plan == PR_POWER):
@@ -253,13 +260,13 @@ def get_rates_pr(dirname, filename):
         #print rate_list
         return rate_list
 
-#fire department tribute
 def get_fire_department_tribute(total_watts, total_cost, plan):
+    """Calculate fire department tribute."""
     if (plan == 'TRR' or plan == 'RR' or plan == 'PR'):
         return (total_cost * FIRE_DEP_TRIBUTE)
     else:
         return (total_cost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
 
-#street lighting tribute
 def get_street_lighting_tribute(total_watts):
+    """Calculate street lighting tribute."""
     return (total_watts * STREET_LIGHT_TRIBUTE)
