@@ -3,27 +3,13 @@ import os
 import parser
 #CNFL
 
-TRR = 'trr'
-TR = 'tr'
-TP = 'tp'
+#files
+SEG_FILE =              'trr.seg'
 
-PEAK_TIME =             0
-OFF_PEAK_TIME =         1
-NIGHT_TIME =            2
-
-#times
-start_off_peak_time1 = time.strptime('06:01:00', '%H:%M:%S')
-end_off_peak_time1   = time.strptime('10:00:59', '%H:%M:%S')
-start_peak_time1    = time.strptime('10:01:00', '%H:%M:%S')
-end_peak_time1      = time.strptime('12:30:59', '%H:%M:%S')
-start_off_peak_time2 = time.strptime('12:31:00', '%H:%M:%S')
-end_off_peak_time2   = time.strptime('17:30:59', '%H:%M:%S')
-start_peak_time2    = time.strptime('17:31:00', '%H:%M:%S')
-end_peak_time2      = time.strptime('20:00:59', '%H:%M:%S')
-start_night_time1   = time.strptime('20:01:00', '%H:%M:%S')
-end_night_time1     = time.strptime('23:59:59', '%H:%M:%S')
-start_night_time2   = time.strptime('00:00:00', '%H:%M:%S')
-end_night_time2     = time.strptime('06:00:59', '%H:%M:%S')
+#TYPE OF RATES
+TRR =                   'trr' #time residential rate
+RR =                    'rr' #residential rate
+PR =                    'pr' #preferential rate
 
 #TIME RESIDENTIAL RATE
 TRR_LOW =               0
@@ -33,6 +19,25 @@ TRR_HIGH =              2
 #power segments in kWh
 TRR_LOW_POWER =         300
 TRR_HIGH_POWER =        500
+
+#segments
+PEAK_TIME =             0
+OFF_PEAK_TIME =         1
+NIGHT_TIME =            2
+
+#times
+start_off_peak_time1 = time.strptime('06:01:00', '%H:%M:%S')
+end_off_peak_time1 =   time.strptime('10:00:59', '%H:%M:%S')
+start_peak_time1 =     time.strptime('10:01:00', '%H:%M:%S')
+end_peak_time1 =       time.strptime('12:30:59', '%H:%M:%S')
+start_off_peak_time2 = time.strptime('12:31:00', '%H:%M:%S')
+end_off_peak_time2 =   time.strptime('17:30:59', '%H:%M:%S')
+start_peak_time2 =     time.strptime('17:31:00', '%H:%M:%S')
+end_peak_time2 =       time.strptime('20:00:59', '%H:%M:%S')
+start_night_time1 =    time.strptime('20:01:00', '%H:%M:%S')
+end_night_time1 =      time.strptime('23:59:59', '%H:%M:%S')
+start_night_time2 =    time.strptime('00:00:00', '%H:%M:%S')
+end_night_time2 =      time.strptime('06:00:59', '%H:%M:%S')
 
 #RESIDENTIAL RATE
 RR_FIXED =              0
@@ -52,6 +57,7 @@ PR_MID =                2
 PR_E_HIGH =             3
 PR_P_HIGH =             4
 
+#plan type
 PR_ENERGY =             0
 PR_POWER =              1
 
@@ -60,15 +66,12 @@ PR_LOW_POWER =          8
 PR_MID_POWER =          30
 PR_HIGH_POWER =         3000
 
-#fire department tribute
+#FIRE DEPARTMENT TRIBUTE
 FIRE_DEP_TRIBUTE =      0.075
 FIRE_DEP_TAX =          1.750
 
-#street lighting tribute
+#STREET LIGHTING TRIBUTE
 STREET_LIGHT_TRIBUTE =  3.51
-
-#files
-SEG_FILE = 'trr.seg'
 
 
 #determine segment according to time
