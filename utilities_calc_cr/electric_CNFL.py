@@ -201,15 +201,12 @@ def get_total_cost_trr(dirname, plan):
         costs_list = get_rates_trr('rates', 'rates-CNFL')
         print costs_list
         if plan is TRR:
-            peak_cost = get_time_segment_cost_trr(totals_list[0], \
-                                                        costs_list, \
-                                                        PEAK_TIME)
+            peak_cost = get_time_segment_cost_trr(totals_list[0], costs_list, \
+                                                  PEAK_TIME)
             off_peak_cost = get_time_segment_cost_trr(totals_list[1], \
-                                                         costs_list, \
-                                                         OFF_PEAK_TIME)
-            night_cost = get_time_segment_cost_trr(totals_list[2], \
-                                                         costs_list, \
-                                                         NIGHT_TIME)
+                                                      costs_list, OFF_PEAK_TIME)
+            night_cost = get_time_segment_cost_trr(totals_list[2], costs_list, \
+                                                   NIGHT_TIME)
         return peak_cost + off_peak_cost + night_cost
 
 def get_consumption_segment_rr(watts):
