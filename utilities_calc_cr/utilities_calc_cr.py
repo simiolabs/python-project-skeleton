@@ -49,9 +49,9 @@ def main():
         parser.get_watts_hour('logs/2017-03')
     elif option == '--testuser':
         user = users.User('111650608')
-        user.assign_company('electricity', 'cnfl')
+        user.assign_company('electricity', 'cnfl', 'trr')
         user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
-        user.assign_company('water', 'aya')
+        user.assign_company('water', 'aya', 'r')
         user.print_info()
         user.create_account()
         user.electric_get_last_month_log(str_last_month)
@@ -60,11 +60,11 @@ def main():
         user.electric_get_watts_hour(str_last_month)
     elif option == '--calcbill':
         user = users.User('111650608')
-        user.assign_company('electricity', 'cnfl')
+        user.assign_company('electricity', 'cnfl', 'trr')
         user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
-        user.assign_company('water', 'aya')
+        user.assign_company('water', 'aya', 'r')
         user.print_info()
-        user.electric_calculate_total_cost_trr(str_last_month)
+        user.electric_get_total_cost_trr(str_last_month)
     else:
         print 'unknown option: ' + option
         sys.exit(1)
