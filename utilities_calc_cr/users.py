@@ -17,17 +17,21 @@ class User(object):
     def __init__(self, user_id):
         self.user_id = user_id
         self.electric_company = ''
+        self.electric_plan = ''
         self.electric_db = ''
         self.electric_pk = ''
         self.water_company = ''
+        self.water_plan = ''
         self.water_db = ''
         self.water_pk = ''
 
-    def assign_company(self, utility, company):
+    def assign_company(self, utility, company, plan):
         if (utility is utilities[0] and company in electric_companies):
             self.electric_company = company
+            self.electric_plan = plan
         elif (utility is utilities[1] and company in water_companies):
             self.water_company = company
+            self.water_plan = plan
         else:
             print 'Undefined %s company: %s' % (utility, company)
 
@@ -85,10 +89,10 @@ class User(object):
             parser.get_watts_hour(self.user_id + '/' + \
                                   ELECTRIC_DIR  + '/' + dirname)
 
-    def electric_calculate_total_cost_trr(self, dirname):
+    def electric_get_total_cost_trr(self, dirname):
         if self.electric_db == db[0]:
             path = self.user_id + '/' + ELECTRIC_DIR + '/' + dirname
             electric_CNFL.get_time_segments_day_totals_trr(path)
-            #TODO add a plan type to user
-            trr_total = electric_CNFL.calculate_total_cost_trr(path, 'trr')
+            trr_total = electric_CNFL.get_total_cost_trr(path, \
+                                                         self.electric_plan)
             print 'Total TRR:', trr_total
