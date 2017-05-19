@@ -1,5 +1,6 @@
 import time
 import os
+import downloader
 import parser
 #CNFL
 
@@ -68,7 +69,21 @@ FIRE_DEP_TAX =          1.750
 STREET_LIGHT_TRIBUTE =  3.51
 
 #files
-SEG_FILE = 'trr.seg'
+#TODO some of them should be global for every file to see them
+URLS_FILE =             'urls'
+RATES_HTML =            'page0.html'
+RATES_FOLDER =          'rates'
+RATES_FILE =            'rates-CNFL'
+SEG_FILE =              'trr.seg'
+
+
+class ElectricCNFL(object):
+    def __init__(self):
+        pass
+    def get_rates(self):
+        downloader.download_rates(URLS_FILE, RATES_FOLDER)
+        rates_list = parser.read_rates(RATES_FOLDER, RATES_HTML)
+        parser.save_rates(RATES_FOLDER, RATES_FILE, rates_list)
 
 
 def get_time_segment_trr(timestamp):
@@ -198,7 +213,7 @@ def get_total_cost_trr(dirname, plan):
         totals_list = get_time_segments_totals_trr(dirname)
         print totals_list
         #TODO these should be global variables
-        costs_list = get_rates_trr('rates', 'rates-CNFL')
+        costs_list = get_rates_trr(RATES_FOLDER, RATES_FILE)
         print costs_list
         if plan is TRR:
             peak_cost = get_time_segment_cost_trr(totals_list[0], costs_list, \
