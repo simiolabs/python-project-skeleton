@@ -3,13 +3,27 @@ import os
 import parser
 #CNFL
 
-#files
-SEG_FILE =              'trr.seg'
+TRR = 'trr'
+TR = 'tr'
+TP = 'tp'
 
-#TYPE OF RATES
-TRR =                   'trr' #time residential rate
-RR =                    'rr' #residential rate
-PR =                    'pr' #preferential rate
+PEAK_TIME =             0
+OFF_PEAK_TIME =         1
+NIGHT_TIME =            2
+
+#times
+start_off_peak_time1 = time.strptime('06:01:00', '%H:%M:%S')
+end_off_peak_time1   = time.strptime('10:00:59', '%H:%M:%S')
+start_peak_time1    = time.strptime('10:01:00', '%H:%M:%S')
+end_peak_time1      = time.strptime('12:30:59', '%H:%M:%S')
+start_off_peak_time2 = time.strptime('12:31:00', '%H:%M:%S')
+end_off_peak_time2   = time.strptime('17:30:59', '%H:%M:%S')
+start_peak_time2    = time.strptime('17:31:00', '%H:%M:%S')
+end_peak_time2      = time.strptime('20:00:59', '%H:%M:%S')
+start_night_time1   = time.strptime('20:01:00', '%H:%M:%S')
+end_night_time1     = time.strptime('23:59:59', '%H:%M:%S')
+start_night_time2   = time.strptime('00:00:00', '%H:%M:%S')
+end_night_time2     = time.strptime('06:00:59', '%H:%M:%S')
 
 #TIME RESIDENTIAL RATE
 TRR_LOW =               0
@@ -19,25 +33,6 @@ TRR_HIGH =              2
 #power segments in kWh
 TRR_LOW_POWER =         300
 TRR_HIGH_POWER =        500
-
-#segments
-PEAK_TIME =             0
-OFF_PEAK_TIME =         1
-NIGHT_TIME =            2
-
-#times
-start_off_peak_time1 = time.strptime('06:01:00', '%H:%M:%S')
-end_off_peak_time1 =   time.strptime('10:00:59', '%H:%M:%S')
-start_peak_time1 =     time.strptime('10:01:00', '%H:%M:%S')
-end_peak_time1 =       time.strptime('12:30:59', '%H:%M:%S')
-start_off_peak_time2 = time.strptime('12:31:00', '%H:%M:%S')
-end_off_peak_time2 =   time.strptime('17:30:59', '%H:%M:%S')
-start_peak_time2 =     time.strptime('17:31:00', '%H:%M:%S')
-end_peak_time2 =       time.strptime('20:00:59', '%H:%M:%S')
-start_night_time1 =    time.strptime('20:01:00', '%H:%M:%S')
-end_night_time1 =      time.strptime('23:59:59', '%H:%M:%S')
-start_night_time2 =    time.strptime('00:00:00', '%H:%M:%S')
-end_night_time2 =      time.strptime('06:00:59', '%H:%M:%S')
 
 #RESIDENTIAL RATE
 RR_FIXED =              0
@@ -57,7 +52,6 @@ PR_MID =                2
 PR_E_HIGH =             3
 PR_P_HIGH =             4
 
-#plan type
 PR_ENERGY =             0
 PR_POWER =              1
 
@@ -66,12 +60,15 @@ PR_LOW_POWER =          8
 PR_MID_POWER =          30
 PR_HIGH_POWER =         3000
 
-#FIRE DEPARTMENT TRIBUTE
+#fire department tribute
 FIRE_DEP_TRIBUTE =      0.075
 FIRE_DEP_TAX =          1.750
 
-#STREET LIGHTING TRIBUTE
+#street lighting tribute
 STREET_LIGHT_TRIBUTE =  3.51
+
+#files
+SEG_FILE = 'trr.seg'
 
 
 #determine segment according to time
@@ -91,57 +88,6 @@ def get_time_segment(timestamp):
         return NIGHT_TIME
     else:
         return -1
-
-#determine segment according to plan
-#time residential rate
-def get_consumption_segment_trr(watts):
-    if (watts <= TRR_LOW_POWER):
-        return TRR_LOW
-    elif (watts > TRR_LOW_POWER and watts <= TRR_HIGH_POWER):
-        return TRR_MID
-    elif (watts > TRR_HIGH_POWER):
-        return TRR_HIGH
-    else:
-        return -1
-
-#residential rate
-def get_consumption_segment_tr(watts):
-    if (watts <= RR_FIXED_CHARGE):
-        return RR_FIXED
-    elif (watts > RR_FIXED_CHARGE and watts <= RR_LOW_POWER):
-        return RR_LOW
-    elif (watts > RR_LOW_POWER and watts <= RR_HIGH_POWER):
-        return RR_MID
-    elif (watts > RR_HIGH_POWER):
-        return RR_HIGH
-    else:
-        return -1
-
-#preferential rate
-def get_consumption_segment_pr(watts, plan):
-    if (watts <= PR_LOW_POWER and plan == PR_ENERGY):
-        return PR_E_LOW
-    elif (watts <= PR_LOW_POWER and plan == PR_POWER):
-        return PR_P_LOW
-    elif (watts > PR_LOW_POWER and watts <= PR_HIGH_POWER):
-        return PR_MID
-    elif (watts > PR_HIGH_POWER and plan == PR_ENERGY):
-        return PR_E_HIGH
-    elif (watts > PR_HIGH_POWER and plan == PR_POWER):
-        return PR_P_HIGH
-    else:
-        return -1
-
-#fire department tribute
-def get_fire_department_tribute(total_watts, total_cost, plan):
-    if (plan == 'TRR' or plan == 'RR' or plan == 'PR'):
-        return (total_cost * FIRE_DEP_TRIBUTE)
-    else:
-        return (total_cost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
-
-#street lighting tribute
-def get_street_lighting_tribute(total_watts):
-    return (total_watts * STREET_LIGHT_TRIBUTE)
 #TODO change this name
 def get_time_segment_totals_trr(dirname):
     if os.path.exists(dirname):
@@ -171,38 +117,17 @@ def get_time_segment_totals_trr(dirname):
                 trr_seg_dic[key] = temp_list
         print 'Segment totals saved in:', SEG_FILE
         parser.save_dic_to_file(dirname, SEG_FILE, trr_seg_dic)
-#TODO change this name
-def get_totals_trr(dirname):
-    if os.path.exists(dirname):
-        total_list = []
-        off_peak_total, peak_total, night_total = (0 for i in range(3))
-        print 'Reading...', SEG_FILE
-        data_dic = parser.load_dic_from_file(dirname, SEG_FILE)
-        sorted_keys = sorted(data_dic)
-        for key in sorted_keys:
-            peak_total += float(data_dic[key][PEAK_TIME]) / 1000
-            off_peak_total += float(data_dic[key][OFF_PEAK_TIME]) / 1000
-            night_total += float(data_dic[key][NIGHT_TIME]) / 1000
-        total_list.append(peak_total)
-        total_list.append(off_peak_total)
-        total_list.append(night_total)
-        #print total_list
-        return total_list
 
-#TODO chage this name
-def calculate_cost_trr(dirname, plan):
-    if os.path.exists(dirname):
-        off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
-        totals_list = get_totals_trr(dirname)
-        print totals_list
-        #TODO this looks terrible, bring those functions to this file
-        costs_list = parser.get_trr('rates', 'rates-CNFL')
-        print costs_list
-        if plan is TRR:
-            peak_cost = calculate_peak_cost_trr(totals_list[0], costs_list)
-            off_peak_total = calculate_off_peak_cost_trr(totals_list[1], \
-                                                         costs_list)
-            night_total = calculate_night_cost_trr(totals_list[2], costs_list)
+#determine consumption segment according to watts
+def get_consumption_segment_trr(watts):
+    if (watts <= TRR_LOW_POWER):
+        return TRR_LOW
+    elif (watts > TRR_LOW_POWER and watts <= TRR_HIGH_POWER):
+        return TRR_MID
+    elif (watts > TRR_HIGH_POWER):
+        return TRR_HIGH
+    else:
+        return -1
 
 def calculate_peak_cost_trr(total_watts, costs_list):
     peak_cost = 0
@@ -263,3 +188,75 @@ def calculate_night_cost_trr(total_watts, costs_list):
         total_watts -= watts
         print 'cost0', night_cost, 'watts1', watts, 'totalwatts', total_watts
     return night_cost
+
+#TODO change this name
+def calculate_cost_trr(dirname, plan):
+    if os.path.exists(dirname):
+        off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
+        totals_list = get_totals_trr(dirname)
+        print totals_list
+        #TODO this looks terrible, bring those functions to this file
+        costs_list = parser.get_trr('rates', 'rates-CNFL')
+        print costs_list
+        if plan is TRR:
+            peak_cost = calculate_peak_cost_trr(totals_list[0], costs_list)
+            off_peak_total = calculate_off_peak_cost_trr(totals_list[1], \
+                                                         costs_list)
+            night_total = calculate_night_cost_trr(totals_list[2], costs_list)
+
+#TODO change this name
+def get_totals_trr(dirname):
+    if os.path.exists(dirname):
+        total_list = []
+        off_peak_total, peak_total, night_total = (0 for i in range(3))
+        print 'Reading...', SEG_FILE
+        data_dic = parser.load_dic_from_file(dirname, SEG_FILE)
+        sorted_keys = sorted(data_dic)
+        for key in sorted_keys:
+            peak_total += float(data_dic[key][PEAK_TIME]) / 1000
+            off_peak_total += float(data_dic[key][OFF_PEAK_TIME]) / 1000
+            night_total += float(data_dic[key][NIGHT_TIME]) / 1000
+        total_list.append(peak_total)
+        total_list.append(off_peak_total)
+        total_list.append(night_total)
+        #print total_list
+        return total_list
+
+#determine consumption segment according to watts
+def get_consumption_segment_tr(watts):
+    if (watts <= RR_FIXED_CHARGE):
+        return RR_FIXED
+    elif (watts > RR_FIXED_CHARGE and watts <= RR_LOW_POWER):
+        return RR_LOW
+    elif (watts > RR_LOW_POWER and watts <= RR_HIGH_POWER):
+        return RR_MID
+    elif (watts > RR_HIGH_POWER):
+        return RR_HIGH
+    else:
+        return -1
+
+#determine consumption segment according to watts and plan
+def get_consumption_segment_pr(watts, plan):
+    if (watts <= PR_LOW_POWER and plan == PR_ENERGY):
+        return PR_E_LOW
+    elif (watts <= PR_LOW_POWER and plan == PR_POWER):
+        return PR_P_LOW
+    elif (watts > PR_LOW_POWER and watts <= PR_HIGH_POWER):
+        return PR_MID
+    elif (watts > PR_HIGH_POWER and plan == PR_ENERGY):
+        return PR_E_HIGH
+    elif (watts > PR_HIGH_POWER and plan == PR_POWER):
+        return PR_P_HIGH
+    else:
+        return -1
+
+#fire department tribute
+def get_fire_department_tribute(total_watts, total_cost, plan):
+    if (plan == 'TRR' or plan == 'RR' or plan == 'PR'):
+        return (total_cost * FIRE_DEP_TRIBUTE)
+    else:
+        return (total_cost / total_watts * FIRE_DEP_TAX * FIRE_DEP_TRIBUTE)
+
+#street lighting tribute
+def get_street_lighting_tribute(total_watts):
+    return (total_watts * STREET_LIGHT_TRIBUTE)
