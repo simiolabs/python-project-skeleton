@@ -149,7 +149,7 @@ def calculate_time_segment_cost_trr(total_watts, costs_list, time_seg):
         print 'cost0', total_cost, 'watts1', watts, 'total_w', total_watts
     return total_cost
 
-def calculate_time_segments_costs_trr(dirname):
+def get_time_segments_totals_trr(dirname):
     if os.path.exists(dirname):
         total_list = []
         off_peak_total, peak_total, night_total = (0 for i in range(3))
@@ -188,7 +188,7 @@ def get_rates_trr(dirname, filename):
 def calculate_total_cost_trr(dirname, plan):
     if os.path.exists(dirname):
         off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
-        totals_list = calculate_time_segments_costs_trr(dirname)
+        totals_list = get_time_segments_totals_trr(dirname)
         print totals_list
         #TODO these should be global variables
         costs_list = get_rates_trr('rates', 'rates-CNFL')
