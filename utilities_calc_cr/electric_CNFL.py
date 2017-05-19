@@ -3,24 +3,10 @@ import os
 import parser
 #CNFL
 
-#files
-SEG_FILE = 'trr.seg'
+TRR = 'trr'
+TR = 'tr'
+TP = 'tp'
 
-#TYPE OF RATES
-TRR = 'trr' #time residential rate
-RR = 'rr' #residential rate
-PR = 'pr' #preferential rate
-
-#TIME RESIDENTIAL RATE
-TRR_LOW =               0
-TRR_MID =               1
-TRR_HIGH =              2
-
-#power segments in kWh
-TRR_LOW_POWER =         300
-TRR_HIGH_POWER =        500
-
-#segments
 PEAK_TIME =             0
 OFF_PEAK_TIME =         1
 NIGHT_TIME =            2
@@ -38,6 +24,15 @@ start_night_time1   = time.strptime('20:01:00', '%H:%M:%S')
 end_night_time1     = time.strptime('23:59:59', '%H:%M:%S')
 start_night_time2   = time.strptime('00:00:00', '%H:%M:%S')
 end_night_time2     = time.strptime('06:00:59', '%H:%M:%S')
+
+#TIME RESIDENTIAL RATE
+TRR_LOW =               0
+TRR_MID =               1
+TRR_HIGH =              2
+
+#power segments in kWh
+TRR_LOW_POWER =         300
+TRR_HIGH_POWER =        500
 
 #RESIDENTIAL RATE
 RR_FIXED =              0
@@ -57,7 +52,6 @@ PR_MID =                2
 PR_E_HIGH =             3
 PR_P_HIGH =             4
 
-#plan type
 PR_ENERGY =             0
 PR_POWER =              1
 
@@ -66,12 +60,15 @@ PR_LOW_POWER =          8
 PR_MID_POWER =          30
 PR_HIGH_POWER =         3000
 
-#FIRE DEPARTMENT TRIBUTE
+#fire department tribute
 FIRE_DEP_TRIBUTE =      0.075
 FIRE_DEP_TAX =          1.750
 
-#STREET LIGHTING TRIBUTE
+#street lighting tribute
 STREET_LIGHT_TRIBUTE =  3.51
+
+#files
+SEG_FILE = 'trr.seg'
 
 
 #determine segment according to time
