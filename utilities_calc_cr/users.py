@@ -94,6 +94,5 @@ class User(object):
             trr = TimeResidentialRate()
             path = self.user_id + '/' + ELECTRIC_DIR + '/' + dirname
             trr.get_time_segments_day_totals_trr(path)
-            trr_total = trr.get_total_cost_trr(path, \
-                                                         self.electric_plan)
+            trr_total = trr.get_total_cost_trr(path, self.electric_plan)
             print 'Total TRR:', trr_total
