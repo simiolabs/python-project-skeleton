@@ -64,8 +64,7 @@ def main():
         user.assign_electric_db('phant', 'JxKdMWGdMViN2784OQb1')
         user.assign_company('water', 'aya')
         user.print_info()
-        user.electric_get_time_segment_totals_trr(str_last_month)
-        user.electric_get_totals_trr(str_last_month)
+        user.electric_calculate_total_cost_trr(str_last_month)
     else:
         print 'unknown option: ' + option
         sys.exit(1)

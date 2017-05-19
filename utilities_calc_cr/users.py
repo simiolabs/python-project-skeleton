@@ -85,13 +85,9 @@ class User(object):
             parser.get_watts_hour(self.user_id + '/' + \
                                   ELECTRIC_DIR  + '/' + dirname)
 
-    def electric_get_time_segment_totals_trr(self, dirname):
+    def electric_calculate_total_cost_trr(self, dirname):
         if self.electric_db == db[0]:
-            electric_CNFL.get_time_segment_totals_trr(self.user_id + '/' + \
-                                                      ELECTRIC_DIR  + '/' + \
-                                                      dirname)
-    def electric_get_totals_trr(self, dirname):
-        if self.electric_db == db[0]:
-            electric_CNFL.calculate_cost_trr(self.user_id + '/' + \
-                                             ELECTRIC_DIR  + '/' + dirname,
-                                             'trr')
+            path = self.user_id + '/' + ELECTRIC_DIR + '/' + dirname
+            electric_CNFL.get_time_segments_day_totals_trr(path)
+            #TODO add a plan type to user
+            electric_CNFL.calculate_total_cost_trr(path, 'trr')
