@@ -21,16 +21,8 @@ def main():
     option = sys.argv[1]
     #filename = sys.argv[2]
     if option == '--getrates':
-        downloader.download_rates('urls', 'rates')
-    elif option == '--parserates':
-        parser.read_rates('rates', 'page0.html')
-    elif option == '--saverates':
-        rates_list = parser.read_rates('rates', 'page0.html')
-        parser.save_rates('rates', 'rates-CNFL', rates_list)
-    elif option == '--readrates':
-        parser.get_trr('rates', 'rates-CNFL')
-        parser.get_rr('rates', 'rates-CNFL')
-        parser.get_pr('rates', 'rates-CNFL')
+        electric = electric_CNFL.ElectricCNFL()
+        electric.get_rates()
     elif option == '--getlog':
         downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
     elif option == '--logtodays':
