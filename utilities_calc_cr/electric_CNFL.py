@@ -227,7 +227,6 @@ class TimeResidentialRate(ElectricCNFL):
             off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
             totals_list = self.get_time_segments_totals_trr(dirname)
             print totals_list
-            #TODO these should be global variables
             costs_list = self.get_rates_trr(RATES_FOLDER, RATES_FILE)
             print costs_list
             if plan is TRR:
