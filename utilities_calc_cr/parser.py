@@ -29,45 +29,6 @@ def save_rates(dirname, filename, rates):
         rate = rate.replace(',', '.')
         f.write(rate + '\n')
     f.close()
-#TODO move to electric_CNFL library
-def get_trr(dirname, filename):
-    """Read TRR and return list."""
-    if os.path.exists(dirname + '/' + filename):
-        rate_list = []
-        f = open(dirname + '/' + filename, 'r')
-        rate_list = f.read().splitlines()
-
-        i = 0
-        twod_list = [] #create 3x3 matrix
-        for x in range (0, 3):
-            new = []
-            for y in range (0, 3):
-                new.append(rate_list[i])
-                i += 1
-            twod_list.append(new)
-
-        #print twod_list
-        return twod_list
-#TODO move to electric_CNFL library
-def get_rr(dirname, filename):
-    """Read RR and return list."""
-    if os.path.exists(dirname + '/' + filename):
-        rate_list = []
-        f = open(dirname + '/' + filename, 'r')
-        rate_list = f.read().splitlines()
-        rate_list = rate_list[9:13]
-        #print rate_list
-        return rate_list
-#TODO move to electric_CNFL library
-def get_pr(dirname, filename):
-    """Read PR and return list."""
-    if os.path.exists(dirname + '/' + filename):
-        rate_list = []
-        f = open(dirname + '/' + filename, 'r')
-        rate_list = f.read().splitlines()
-        rate_list = rate_list[13:]
-        #print rate_list
-        return rate_list
 
 def log_to_days(dirname, filename):
     """Take month long log file and divide it in day long log files."""

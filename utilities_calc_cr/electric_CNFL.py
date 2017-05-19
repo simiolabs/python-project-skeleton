@@ -128,7 +128,7 @@ def get_consumption_segment_trr(watts):
         return TRR_HIGH
     else:
         return -1
-
+#TODO integrate these three following functions into one, they all do the same
 def calculate_peak_cost_trr(total_watts, costs_list):
     peak_cost = 0
     watts = 0
@@ -206,13 +206,32 @@ def calculate_time_segments_costs_trr(dirname):
         #print total_list
         return total_list
 
+def get_rates_trr(dirname, filename):
+    """Read TRR and return list."""
+    if os.path.exists(dirname + '/' + filename):
+        rate_list = []
+        f = open(dirname + '/' + filename, 'r')
+        rate_list = f.read().splitlines()
+
+        i = 0
+        twod_list = [] #create 3x3 matrix
+        for x in range (0, 3):
+            new = []
+            for y in range (0, 3):
+                new.append(rate_list[i])
+                i += 1
+            twod_list.append(new)
+
+        #print twod_list
+        return twod_list
+
 def calculate_total_cost_trr(dirname, plan):
     if os.path.exists(dirname):
         off_peak_cost, peak_cost, night_cost = (0 for i in range(3))
         totals_list = calculate_time_segments_costs_trr(dirname)
         print totals_list
-        #TODO this looks terrible, bring those functions to this file
-        costs_list = parser.get_trr('rates', 'rates-CNFL')
+        #TODO these should be global variables
+        costs_list = get_rates_trr('rates', 'rates-CNFL')
         print costs_list
         if plan is TRR:
             peak_cost = calculate_peak_cost_trr(totals_list[0], costs_list)
@@ -221,7 +240,7 @@ def calculate_total_cost_trr(dirname, plan):
             night_total = calculate_night_cost_trr(totals_list[2], costs_list)
 
 #determine consumption segment according to watts
-def get_consumption_segment_tr(watts):
+def get_consumption_segment_rr(watts):
     if (watts <= RR_FIXED_CHARGE):
         return RR_FIXED
     elif (watts > RR_FIXED_CHARGE and watts <= RR_LOW_POWER):
@@ -232,6 +251,16 @@ def get_consumption_segment_tr(watts):
         return RR_HIGH
     else:
         return -1
+
+def get_rates_rr(dirname, filename):
+    """Read RR and return list."""
+    if os.path.exists(dirname + '/' + filename):
+        rate_list = []
+        f = open(dirname + '/' + filename, 'r')
+        rate_list = f.read().splitlines()
+        rate_list = rate_list[9:13]
+        #print rate_list
+        return rate_list
 
 #determine consumption segment according to watts and plan
 def get_consumption_segment_pr(watts, plan):
@@ -247,6 +276,16 @@ def get_consumption_segment_pr(watts, plan):
         return PR_P_HIGH
     else:
         return -1
+
+def get_rates_pr(dirname, filename):
+    """Read PR and return list."""
+    if os.path.exists(dirname + '/' + filename):
+        rate_list = []
+        f = open(dirname + '/' + filename, 'r')
+        rate_list = f.read().splitlines()
+        rate_list = rate_list[13:]
+        #print rate_list
+        return rate_list
 
 #fire department tribute
 def get_fire_department_tribute(total_watts, total_cost, plan):
