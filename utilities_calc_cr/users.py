@@ -72,7 +72,7 @@ class User(object):
             downloader.get_last_month_log(self.electric_pk, \
                                           self.user_id + '/' + \
                                           ELECTRIC_DIR + '/' +
-                                          dirname)
+                                          dirname, self.electric_db)
 
     def electric_log_to_days(self, dirname):
         if self.electric_db == db[0]:
