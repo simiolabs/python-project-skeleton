@@ -24,7 +24,8 @@ def main():
         electric = ElectricCNFL()
         electric.get_rates()
     elif option == '--getlog':
-        downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs')
+        #downloader.get_last_month_log('JxKdMWGdMViN2784OQb1', 'logs', 'phant')
+        downloader.get_last_month_log('576da9e1854652db29d48f433824d320', 'logs', 'emoncms')
     elif option == '--logtodays':
         parser.log_to_days('logs', 'log')
     elif option == '--getwatts':
