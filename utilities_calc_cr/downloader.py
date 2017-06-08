@@ -6,6 +6,7 @@ import datetime
 import time
 
 LOG = '.log'
+USER_AGENT = 'Utilities Calc CR'
 
 def download_rates(filename, dest_dir):
     """Download rates from websites in list of urls."""
@@ -70,7 +71,7 @@ def get_log_emoncms(public_key, dest_dir, start_date, end_date):
     local_name = start_date.strftime('%Y-%m' + LOG)
     #FIXME: node is hardcoded
     url = 'http://simiolabs.com/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=300'
-    user_agent = 'Utilities Calc CR'
+    user_agent = USER_AGENT
     values = { }
     headers = {'User-Agent': user_agent}
     data = urllib.urlencode(values)
