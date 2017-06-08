@@ -71,14 +71,6 @@ def get_last_month_log_emoncms(public_key, dest_dir):
     start_ts = str(int(time.mktime(last_month.timetuple())) * 1000)
 
     local_name = last_month.strftime('%Y-%m' + LOG)
-    #url = 'https://emoncms.org/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=75'
-    #url = 'http://simiolabs.com/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=300'
-    #print 'Retrieving...', url
-    #try:
-    #    urllib.urlretrieve(url, os.path.join(dest_dir, local_name))
-    #    print 'Saved in:', local_name
-    #except Exception, e:
-    #    print e
     #FIXME: node is hardcoded
     url = 'http://simiolabs.com/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=300'
     user_agent = 'Utilities Calc CR'
