@@ -1,5 +1,6 @@
 import os
 import urllib
+import urllib2
 import re
 import datetime
 import time
@@ -43,6 +44,7 @@ def get_last_month_log(public_key, dest_dir):
     start_month = last_month.strftime('%m-%d-%Y')
 
     local_name = last_month.strftime('%Y-%m' + LOG)
+    #FIXME: name is hardcoded
     url = 'http://data.sparkfun.com/output/'+public_key+'.json?gte[timestamp]='+start_month+'&lt[timestamp]='+end_month+'&eq[name]=total'
     print 'Retrieving...', url
     try:
@@ -70,10 +72,25 @@ def get_last_month_log_emoncms(public_key, dest_dir):
 
     local_name = last_month.strftime('%Y-%m' + LOG)
     #url = 'https://emoncms.org/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=75'
+    #url = 'http://simiolabs.com/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=300'
+    #print 'Retrieving...', url
+    #try:
+    #    urllib.urlretrieve(url, os.path.join(dest_dir, local_name))
+    #    print 'Saved in:', local_name
+    #except Exception, e:
+    #    print e
+    #FIXME: node is hardcoded
     url = 'http://simiolabs.com/emoncms/feed/data.json?id=1&apikey='+public_key+'&start='+start_ts+'&end='+end_ts+'&interval=300'
-    print 'Retrieving...', url
+    user_agent = 'Utilities Calc CR'
+    values = { }
+    headers = {'User-Agent': user_agent}
+
+    data = urllib.urlencode(values)
+    req = urllib2.Request(url, data, headers)
     try:
-        urllib.urlretrieve(url, os.path.join(dest_dir, local_name))
-        print 'Saved in:', local_name
-    except Exception, e:
-        print e
+        response = urllib2.urlopen(req)
+        f = open(dest_dir + '/' + local_name, 'w')
+        f.write(response.read())
+        f.close()
+    except urllib2.URLError as e:
+        print e.reason
