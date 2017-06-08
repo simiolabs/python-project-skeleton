@@ -67,12 +67,11 @@ class User(object):
         f.close()
 
     def electric_get_last_month_log(self, dirname):
-        if self.electric_db == db[0]:
-            today = datetime.date.today()
-            downloader.get_last_month_log(self.electric_pk, \
-                                          self.user_id + '/' + \
-                                          ELECTRIC_DIR + '/' +
-                                          dirname, self.electric_db)
+        today = datetime.date.today()
+        downloader.get_last_month_log(self.electric_pk, \
+                                      self.user_id + '/' + \
+                                      ELECTRIC_DIR + '/' +
+                                      dirname, self.electric_db)
 
     def electric_log_to_days(self, dirname):
         if self.electric_db == db[0]:
